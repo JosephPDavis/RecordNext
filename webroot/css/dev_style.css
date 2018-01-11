@@ -1,0 +1,51 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2 Nov, 2017, 11:58:18 AM
+    Author     : snehag
+*/
+.form-group.required-label.control-label:before{
+   color: red;
+   content: "*";
+   position: absolute;
+   margin-left: -10px;
+}
+
+.header-inner {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.header-label {
+    border: 1px solid #ccc;}
+.yamm .nav > li > a {
+    padding: 14px 17px;
+}
+.advantages {
+  padding-bottom: 44px;
+  padding-top: 20px;
+
+}
+.section {
+  padding-bottom: 60px;
+  padding-top: 30px;
+}
+.ui-title-page {
+  padding: 12px 0 26px;
+}
+.ui-title-page h1 {
+    font-size: 24px;
+ }
+.ui-form .input-group {
+    border: 1px solid #ccc;}
+
+.btn {
+      padding: 12px 30px 16px;
+}
+.footerLogo{ display: block;}
+ .footerLink { display: block; width: 100%; margin-top: 40px;}
+ .footerLink li{ display: block; list-style: none;}
+                      .footerLink li a{ color: #ccc; }
+                      .footerLink li a:hover{ color: #f26529; }

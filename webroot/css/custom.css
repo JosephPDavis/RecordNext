@@ -1,0 +1,21 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+/* CUSTOM CSS (ADD YOUR CSS HERE!) */
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+.error-message{ color: #f00; }
+.error {
+    color: #f00;
+    text-align: center;
+    border-top: 1px solid #c9c9c9;
+}
+.alert.alert-danger{
+    background-color: #ff4d4d !important;
+}
+.alert.alert-success{
+    background-color: #47d147 !important;
+}
+.form-group.required-label.control-label:before{
+   color: red;
+   content: "*";
+   position: absolute;
+   margin-left: -10px;
+}
