@@ -245,7 +245,7 @@ return [
              */
             //'port' => 'non_standard_port_number',
             'username' => 'medicalrecords',
-            'password' => 'medicalrecords',
+            'password' => 'medicalrecords34GTr5',
             'database' => 'db_medicalrecords',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
