@@ -82,16 +82,14 @@
                     <div class="table-responsive">
                         <table class="table table-bordered  table-striped">
                             <tr>
-                                <!--<th width="7%"><?php // echo $this->Paginator->sort('Request.id', 'Sr No #'); ?></th>-->
                                 <th><?php echo $this->Paginator->sort('Request.request_id', 'Request#'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.Provider_id', 'Requestor Name'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.first_name', 'Full Name'); ?></th>
-                                <!--<th><?php echo $this->Paginator->sort('Request.last_name', 'Last name'); ?></th>-->
-                                <th><?php echo $this->Paginator->sort('Request.threshold', 'Record fee limit'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.total_cost', 'Provider Fees'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.payment_status', 'Payment Status'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.request_status', 'Status'); ?></th>
-                                <th><?php echo $this->Paginator->sort('Request.date_of_request', 'Date'); ?></th>
+                                <th>Requestor Name</th>
+                                <th><?php echo $this->Paginator->sort('first_name', 'Full Name'); ?></th>
+                                <th><?php echo $this->Paginator->sort('threshold', 'Record fee limit'); ?></th>
+                                <th><?php echo $this->Paginator->sort('total_cost', 'Provider Fees'); ?></th>
+                                <th>Payment Status</th>
+                                <th>Status</th>
+                                <th>Date</th>
                                 <th>Action  </th>
                             </tr>
                             <?php 
@@ -103,24 +101,26 @@
                                    $provider_data = $this->Common->getRequesterData($req['requestor_id']);
                                    $created = date('M d, Y', strtotime($req['date_of_request']));
                                    $request_status = $this->Common->getStatusByID($req['request_status']);
-                                   if($req['payment_status'] == 1){
-                                       $paymentStatus = 'Paid';
-                                   }else{
-                                       $paymentStatus = 'Un-Paid';
-                                   }
+                                   
                                    ?>
                             <tr>
-                                <!--<td><?php // echo $srno; ?></td>-->
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $req['request_id']; ?></td> 
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $req['Requestor']['first_name'].' '.$req['Requestor']['last_name']; ?></td> 
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $req['first_name'].' '.$req['last_name']; ?></td> 
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo '$'.$req['threshold']; ?></td>
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo (!empty($req['total_cost']))?'$'.$req['total_cost']:'NA'; ?></td>
-                                <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $paymentStatus; ?></td>
+                                <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');">
+                                    <?php
+                                    if($req['paid_to_provider'] == 0){?>
+                                    <a class='label label-warning' href="javascript:void(0);">Unpaid</a> 
+                                  <?php }else{?>
+                                      <a class='label label-success' href="javascript:void(0);">Paid</a> 
+                                  <?php }
+                                    ?>
+                                </td>
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $request_status; ?></td>
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $created; ?></td>
                                 <td>
-                                    <!--<a href="#" class="editIcon"><i class="fa  fa-edit" title="edit"></i></a>-->                 
                                     <?php 
                                     echo $this->Html->link('View Request ',['controller' => 'Providers', 'action' => 'viewRequest',$this->Common->encrypt($req['id']),'_full' => true],['class'=>'label label-warning','escape'=>false]);?>             
                                 </td>

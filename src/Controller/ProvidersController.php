@@ -302,11 +302,20 @@ class ProvidersController extends AppController {
 
                     if ($account->save()) {
                         $providerDetail = $ProviderDetails->newEntity();
-                        $dob = $post_data['dob'];
-                        $this->request->data['dob'] = date('Y-m-d', strtotime($dob));
-                        $this->request->data['provider_id'] = $userSession['id'];
-                        $this->request->data['ext_account_holder_name'] = $post_data['account_holder_name'];
-                        $providerDetail = $ProviderDetails->patchEntity($providerDetail, $this->request->getData());
+                         $dob = $post_data['dob'];
+                        $providerDetail->dob = date('Y-m-d', strtotime($dob));
+                        $providerDetail->provider_id = $userSession['id'];
+                        $providerDetail->ext_account_holder_name = $post_data['account_holder_name'];
+                        $providerDetail->ssn = $post_data['ssn'];
+                        $providerDetail->personal_id_number = $personal_id;
+                        $providerDetail->entityType = $account_holder_type;
+                        $providerDetail->businessName = $businessName;
+                        $providerDetail->business_tax_id = $businessTaxId;
+                        $providerDetail->bank_name = $post_data['bank_name'];
+                        $providerDetail->ext_account_holder_type = $account_holder_type;
+                        $providerDetail->routing_number = $post_data['routing_number'];
+                        $providerDetail->account_number = $post_data['account_number'];
+                        $providerDetail->country = $post_data['countryHidden'];
                         $ProviderDetails->save($providerDetail);
                         $arrJson['status'] = 'success';
                         $arrJson['message'] = 'Account Created';
@@ -785,9 +794,9 @@ class ProvidersController extends AppController {
             }
             if (isset($id_keyword) && $id_keyword != '') {
                 if ($id_keyword == 1) {
-                    $conditions += ['requests.payment_status' => 1];
+                    $conditions += ['requests.paid_to_provider' => 1];
                 } else {
-                    $conditions += ['requests.payment_status' => 0];
+                    $conditions += ['requests.paid_to_provider' => 0];
                 }
             }
             if (isset($start_date) && $start_date != '') {
