@@ -432,7 +432,7 @@ echo $this->Html->css('/js/bootcomplete.js-master/bootcomplete');
     $('#ssn_no').mask('000-00-0000'); // SSN masking 
 
             $("#requestForm").validate({
-    errorElement: "div",
+             errorElement: "div",
             highlight: function(element) {
             $(element).removeClass("error");
             },

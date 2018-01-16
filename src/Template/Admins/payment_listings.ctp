@@ -16,6 +16,7 @@
         display: none;
     }
 </style>
+
 <section class="content-header">
     <h1>
         Requests
@@ -40,14 +41,14 @@
             <div class="box">
                 <div class="alert alert-danger ProviderAlert dont-show">
                     <strong>Payment can not process as Provider haven't had submitted his bank details yet.</strong>
-                  </div>
+                </div>
                 <?php echo $this->Form->create(null, array('id'=>'searchForm')); ?>
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'value'=>$name_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->               
-                            <span class="help-block pull-left spn100">By name </span>
+                            <span class="help-block pull-left spn100 label-search">By name </span>
                         </div>
                         <div class="col-md-2">                
                             <div class="input-group date">
@@ -58,7 +59,7 @@
                                 <!--<input type="text" class="form-control pull-right" id="datepicker">-->
 
                             </div>
-                            <span class="help-block">Search by start date</span>
+                            <span class="help-block label-search">Search by start date</span>
                         </div>
 
                         <div class="col-md-2">                
@@ -70,13 +71,13 @@
                                 <!--<input type="text" class="form-control pull-right" id="datepicker">-->
 
                             </div>
-                            <span class="help-block">Search by end date</span>
+                            <span class="help-block label-search">Search by end date</span>
                         </div>
                         <div class="col-md-2">                
                                 <?php 
                                 $dateDateRange = ['Paid'=>'Paid','Unpaid'=>'Unpaid'];
                                 echo $this->Form->input('payment_status',array('label' => false,'type'=>'select','options'=>$dateDateRange,'div' => false,'value'=>'' ,'empty'=>"Select status" , 'class' => 'form-control pull-right','id'=>"payment_status"));?>  
-                            <span class="help-block pull-left spn100">Select the payment status</span>
+                            <span class="help-block pull-left spn100 label-search">Select the payment status</span>
                         </div>
 
                         <div class="col-md-2">     
@@ -123,7 +124,7 @@
                             <tr>
                                 <!--<td><?php // echo $srno; ?></td>-->
                                 <td>
-                                    
+
                                 <?php 
                                 if(empty($providerAccountData)){
                                     
@@ -142,7 +143,7 @@
                                 }
                                 ?>
                                 </td> 
-                                
+
                                 <td onclick="viewDetails('<?php echo $this->Common->encrypt($req['id']);?>');"><?php echo $req['request_id']; ?></td> 
                                 <td><?php echo $provider_data['first_name'].' '.$provider_data['last_name']; ?></td>
                                 <td><?php echo $requestor_data['first_name'].' '.$requestor_data['last_name']; ?></td>
@@ -160,7 +161,7 @@
                                     <a class='label label-success' href="javascript:void(0);">Paid</a>     
                                             <?php } ?>
                                 </td>
-                                <td><?php echo $this->Html->link('View Invoice',['controller' => 'Admins', 'action' => 'viewInvoice', $this->Common->encrypt($req['id']),'_full' => true],['class'=>'label label-warning','escape'=>false]);?></td>
+                                <td><?php echo $this->Html->link('View Invoice',['controller' => 'Admins', 'action' => 'viewInvoice', $this->Common->encrypt($req['id']),'_full' => true],['class'=>'label label-warning','escape'=>false,'target' => '_blank']);?></td>
                             </tr>
                             <?php 
 //                            $srno++;
@@ -173,17 +174,18 @@
                             ?>
                         </table>
                         <div class="row">
-                        <div class="col-md-6">
-                            <span>Total Amount unpaid: <strong id="unpaidProviderCheckAll">0 $</strong></span>
-                        </div>    
-                        <div class="col-md-6">
-                            <button class="btn btn-info pay-now-btn" id="makePaymentBulk">Pay now</button>  
-                        </div>
+                            <div class="col-md-6">
+                                <span>Total Amount unpaid: <strong id="unpaidProviderCheckAll">0 $</strong></span>
+                            </div>    
+                            <div class="col-md-6">
+                                <button class="btn btn-info pay-now-btn" id="makePaymentBulk">Pay now</button>  
+                            </div>
                         </div>
                         <?php if(!empty($requestData)){ ?>
                             <?php echo $this->element('pagination'); ?>
                         <?php } ?>
-                    </div></div>
+                    </div>
+                </div>
 
                 <!-- /.box-body -->
 
@@ -206,15 +208,15 @@
         jQuery(".requestChk").click(function () {
             recalculate();
         });
-        jQuery("#showAlert").click(function () { 
+        jQuery("#showAlert").click(function () {
             jQuery(".ProviderAlert").show();
-            jQuery(".ProviderAlert").fadeOut(1600,"slow");
-            
+            jQuery(".ProviderAlert").fadeOut(1600, "slow");
+
         });
         function recalculate() {
             var sum = 0;
             var i = 0;
-           
+
             jQuery("input[type=checkbox]:checked:not('#checkAll')").each(function () {
                 sumArr[i] = {};
                 sum += parseInt($(this).attr("data-payment"));
@@ -224,11 +226,11 @@
                 i++;
             });
             jQuery("#unpaidProviderCheckAll").html(sum + ' $');
-            if(i > 1){
-            jQuery("#makePaymentBulk").removeAttr("disabled");                
-          }else{
-               jQuery("#makePaymentBulk").attr("disabled", "disabled");
-          }
+            if (i > 1) {
+                jQuery("#makePaymentBulk").removeAttr("disabled");
+            } else {
+                jQuery("#makePaymentBulk").attr("disabled", "disabled");
+            }
         }
 
         //bulk payment code starts
@@ -240,7 +242,7 @@
                 return false;
             }
             var arrMsg = [];
-            var j=0;
+            var j = 0;
             $.ajax({
                 type: "POST",
                 data: {data: sumArr},
@@ -297,31 +299,51 @@
     }
 
     jQuery(".makePayment").click(function () {
-        jQuery('#loddingImage').show();
         var request_id = jQuery(this).attr('data-reqid');
-        var provider_id = jQuery(this).attr('data-proid');
-        var provider_fees = jQuery(this).attr('data-profees');
+                    var provider_id = jQuery(this).attr('data-proid');
+                    var provider_fees = jQuery(this).attr('data-profees');
 
-        var data = {request_id: request_id, provider_id: provider_id, provider_fees: provider_fees}
+                    var data = {request_id: request_id, provider_id: provider_id, provider_fees: provider_fees}
 
-        $.ajax({
-            type: "POST",
-            data: data,
-            url: '/admins/makeSinglePayment',
-            dataType: 'json',
-            success: function (json) {
-                if (json.status == 'success') {
-                    $('#loddingImage').hide();
-                    bootbox.alert("The payment to provider have been paid successfully! ",
-                            function () {
-                                window.location.reload();
+        bootbox.confirm({
+            message: "Are you sure you want to pay to this provider?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+//                        console.log('This was logged in the callback: ' + result);
+                if (result == true) {
+                    jQuery('#loddingImage').show();
+                    
+                    $.ajax({
+                        type: "POST",
+                        data: data,
+                        url: '/admins/makeSinglePayment',
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.status == 'success') {
+                                $('#loddingImage').hide();
+                                bootbox.alert("The payment to provider have been paid successfully! ",
+                                        function () {
+                                            window.location.reload();
+                                        }
+                                );
+                            } else {
+
                             }
-                    );
-                } else {
-
+                        }
+                    });
                 }
             }
         });
+
 
     });
 </script>

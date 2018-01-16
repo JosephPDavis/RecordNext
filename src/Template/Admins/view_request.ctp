@@ -171,10 +171,27 @@
         border-bottom: 1px dashed #ccc;
         background: #999;
     }
-    .request-fee-blk{
+   .request-fee-blk{
         display: none;
     }
-   
+    .reasonDiv{
+        display: none;
+    }
+    .response_span_success,#Records_span,#provider_response_span{
+        color : #337ab7;
+    }
+    .response_span_denied{
+        color : #ff0000;
+    }
+    .lead{
+     font-size: 16px;   
+    }
+    #ProFeesChangeDiv{
+        display: none;
+    }
+    .thresholdError{
+        display: none;
+    }
 </style>
 <section class="content-header">
     <h1>
@@ -201,26 +218,8 @@
                 <!-- form start -->
                 <div class="box-body box-profile">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <div class="col-sm-12">
+                         <div class="col-sm-12">
                                 <!--<h3 style="margin-top: 0;">Personal Information</h3>-->
-                                <?php
-                                $provider_data = $this->Common->getProviderData($data['provider_id']);
-                                $matter_data = $this->Common->getMatterData($data['matter_no']);
-                                if (isset($data['client_name']) && isset($data['client_id'])) {
-                                    $clientData = $this->Common->getClientData($data['client_id']);
-                                    if (!empty($clientData)) {
-                                        $clientName = $clientData['client_name'];
-                                        $clientNumber = $clientData['client_number'];
-                                    } else {
-                                        $clientName = "NA";
-                                        $clientNumber = "NA";
-                                    }
-                                } else {
-                                    $clientName = "NA";
-                                    $clientNumber = "NA";
-                                }
-                                ?>  
                                 <div class="row" style="margin-top: 15px;">
                                     <label class="col-md-2 col-xs-2"> Request Status:</label>
                                     <div class="col-md-10 col-xs-10" style="margin-top: 60px;margin-bottom:60px;"> 
@@ -228,207 +227,129 @@
                                             <input type="hidden" id="request_id" name="request_id" value="<?php echo $data['id']; ?>">
                                             <input type="hidden" id="requestor_id" name="requestor_id" value="<?php echo $data['requestor_id']; ?>">
 
-                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted newDiv">
+                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted">
                                                 <a href="javascript:void(0);" data-update="0" class="progressUpdate" id="submitted">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/new_icon.png"/>
-                                                        <span class="proBarName">Submitted</span>    
+                                                        <span class="proBarName">New</span>    
                                                     </span>
                                                 </a>
                                             </div>
-                                            <div class="rotated-circle-outer">
-                                                <div class="curved-line" id="divDeniedLine"></div>
-                                                <div class="progress-bar " data-update="2" id="divDenied">
-                                                    <a href="javascript:void(0);" data-update="2" class="progressUpdate" id="denied">
-                                                        <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                            <span class="proBarName circle-txt-new upper-txt">Provider Denied</span>    
-                                                        </span>   
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="rotated-circle-outer">
-                                                <div class="curved-line straight-line"></div>
-                                                <div class="progress-bar" data-update="11" id="divClosed">
-                                                    <a href="javascript:void(0);" data-update="11" class="progressUpdate closeRequest" id="closed">
-                                                        <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                            <span class="proBarName upper-txt">Closed</span>    
-                                                        </span> 
-                                                    </a> 
-                                                </div>
-                                            </div>
-                                            <div class="progress-bar" data-update="1" id="divConfirmed">
-                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="confirmed">
+                                             
+                                            <div class="progress-bar" data-update="1" id="divprovider_response">
+                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="provider_response">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/confirmed_icon.png"/>
-                                                        <span class="proBarName">Provider<br/>Acknowledged</span>    
+                                                        <span class="proBarName">Provider Response</span>    
+                                                        <span id="provider_response_span"></span> 
                                                     </span>
                                                 </a>   
                                             </div>
-
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                                <div class="curved-line curved-line-bottom" id="divNoRecFoundLine"></div>
-                                                <div class="progress-bar " data-update="4" id="divNoRec">
-                                                    <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="NoRec">
-                                                        <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                            <span class="proBarName circle-txt-new">No Record Found</span>    
-                                                        </span>   
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                                <div class="curved-line straight-line"></div>
-                                                <div class="progress-bar " data-update="12" id="divClosed">
-                                                    <a href="javascript:void(0);" data-update="12" class="progressUpdate closeRequest" id="closed">
-                                                        <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                            <span class="proBarName">Closed</span>    
-                                                        </span> 
-                                                    </a> 
-                                                </div>
-                                            </div>
-                                            <div class="progress-bar"  data-update="3" id="divRecFound">
-                                                <a href="javascript:void(0);" data-update="3" class="progressUpdate" id="recFound">
+                                             
+                                            <div class="progress-bar"  data-update="4" id="divinProgress">
+                                                <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="inProgress">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">Record Found</span>    
+                                                        <span class="proBarName">In progress</span>    
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar"  data-update="5" id="divInProgress">
-                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="inProgress">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">In Progress</span>    
+                                            <div class="progress-bar"  data-update="5" id="divRecords">
+                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="Records">
+                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
+                                                        <span class="proBarName">Results</span>   
+                                                        <span class="proBarName" id="Records_span"></span> 
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar " data-update="6" id="divDlAvailable">
-                                                <a href="javascript:void(0);" data-update="6" class="progressUpdate" id="dlAvailable">
-                                                    <span class="proBarIcon offBg  <?php echo $blinkClass; ?>"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
-                                                        <span class="proBarName">Records Available<br/>for Download</span>    
-                                                    </span>  
-                                                </a>
-                                            </div>  
-                                            <div class="progress-bar " data-update="8" id="divPaid">
-                                                <a href="javascript:void(0);" data-update="8" class="progressUpdate" id="paid">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/Paid_icon.png"/>
-                                                        <span class="proBarName">Paid</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-                                            <div class="rotated-circle-outer-2">
-                                                <div class="curved-line" id="divReqDeniedLine"></div>
-                                                <div class="progress-bar " data-update="9" id="divReqDenied">
-                                                    <a href="javascript:void(0);" data-update="9" class="progressUpdate" id="ReqDenied">
-                                                        <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                            <span class="proBarName circle-txt-new upper-txt">Requestor Denied</span>    
-                                                        </span>   
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="rotated-circle-outer-2">
-                                                <div class="curved-line straight-line"></div>
-                                                <div class="progress-bar " data-update="13" id="divReqDeniedClosed">
-                                                    <a href="javascript:void(0);" data-update="13" class="progressUpdate closeRequest" id="ReqDeniedClosed">
-                                                        <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                            <span class="proBarName upper-txt">Closed</span>    
-                                                        </span> 
-                                                    </a> 
-                                                </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                                <div class="curved-line curved-line-bottom" id="divReqConfLine"></div>
-                                                <div class="progress-bar " data-update="10" id="divReqConf">
-                                                    <a href="javascript:void(0);" data-update="10" class="progressUpdate" id="ReqConf">
-                                                        <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                            <span class="proBarName circle-txt-new">Requestor Confirmed</span>    
-                                                        </span>   
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                                <div class="curved-line straight-line"></div>
-                                                <div class="progress-bar " data-update="14" id="divReqConfClosed">
-                                                    <a href="javascript:void(0);" data-update="14" class="progressUpdate closeRequest" id="ReqConfClosed">
-                                                        <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                            <span class="proBarName">Closed</span>    
-                                                        </span> 
-                                                    </a> 
-                                                </div>
-                                            </div>
-                                        </div>   
+                                        </div>      
                                     </div>
                                 </div>
                                 <input type="hidden" name="request_status" id="request_status" value="<?php echo $data['request_status']; ?>">
-
+                           
+                                <?php  
+                                        $provider_data = $this->Common->getProviderData($data['provider_id']);
+                                        if(!empty($data['matter_id']) && isset($data['matter_id'])){
+                                        $matter_data = $this->Common->getMatterData($data['matter_id']);
+                                            if(!empty($matter_data)){
+                                            $matterNumber = $matter_data['matter_no'];
+                                            $matterName = $matter_data['matter_name'];
+                                            }else{
+                                            $matterNumber = "NA";
+                                            $matterName = "NA";
+                                        }
+                                        
+                                        }else{
+                                            $matterNumber = "NA";
+                                            $matterName = "NA";
+                                        }
+                                        if (!empty($data['client_id']) && isset($data['client_id'])) {
+                                            $clientData = $this->Common->getClientData($data['client_id']);
+                                            if(!empty($clientData)){
+                                                $clientName = $clientData['client_name'];
+                                                $clientNumber = $clientData['client_number'];
+                                            }else {
+                                            $clientName = "NA";
+                                            $clientNumber = "NA";
+                                            }
+                                        } else {
+                                            $clientName = "NA";
+                                            $clientNumber = "NA";
+                                        }
+                                        $last4digitSSN = substr($data['ssn_no'], -4);
+                                        ?>  
                                 <div class="row"><label class="col-md-2 col-xs-4">Request ID:</label> <span class="col-md-10 col-xs-8"><?php echo $data['request_id']; ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">Provider Name:</label> <span class="col-md-10 col-xs-8"><?php echo $provider_data['first_name'] . ' ' . $provider_data['first_name']; ?></span></div>
-                                <?php
-                                if (!empty($data['department_id'])) {
+                                <div class="row"><label class="col-md-2 col-xs-4">Provider Name:</label> <span class="col-md-10 col-xs-8"><?php echo $provider_data['first_name'].' '.$provider_data['last_name']; ?></span></div>
+                                <?php if(!empty($data['department_id'])){
                                     $dept_data = $this->Common->getDeptData($data['department_id']);
+                                    
                                     ?>
-                                    <div class="row"><label class="col-md-2 col-xs-4">Department:</label> <span class="col-md-10 col-xs-8"><?php echo isset($dept_data) ? $dept_data['name'] : "NA"; ?></span></div>
-                                <?php } ?>
+                                <div class="row"><label class="col-md-2 col-xs-4">Department:</label> <span class="col-md-10 col-xs-8"><?php echo isset($dept_data)?$dept_data['name'] : "NA" ; ?></span></div>
+                                <?php }?>
 
                                 <h4><strong>Firm Details</strong></h4>
 
                                 <div class="row"><label class="col-md-2 col-xs-4">Client Number:</label> <span class="col-md-10 col-xs-8"><?php echo $clientNumber; ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Client name:</label> <span class="col-md-10 col-xs-8"><?php echo $clientName; ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">Matter Number:</label> <span class="col-md-10 col-xs-8"><?php echo!empty($data['matter_no']) ? $data['matter_no'] : 'NA'; ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">Matter Name:</label> <span class="col-md-10 col-xs-8"><?php echo!empty($matter_data) ? $matter_data['matter_name'] : 'NA'; ?></span></div>
+                                <div class="row"><label class="col-md-2 col-xs-4">Matter Number:</label> <span class="col-md-10 col-xs-8"><?php echo $matterNumber; ?></span></div>
+                                <div class="row"><label class="col-md-2 col-xs-4">Matter Name:</label> <span class="col-md-10 col-xs-8"><?php echo $matterName; ?></span></div>
 
                                 <h4> <strong>Patient Details</strong></h4>
 
                                 <div class="row"><label class="col-md-2 col-xs-4">First Name:</label> <span class="col-md-10 col-xs-8"><?php echo $data['first_name']; ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Last Name:</label> <span class="col-md-10 col-xs-8"><?php echo $data['last_name']; ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">SSN:</label> <span class="col-md-10 col-xs-8"><?php echo (!empty($data['ssn_no'])) ? $data['ssn_no'] : 'NA'; ?></span></div>
+                                <div class="row"><label class="col-md-2 col-xs-4">Social Security Number:</label> <span class="col-md-10 col-xs-8"><?php echo (!empty($last4digitSSN))? '*****'.$last4digitSSN:'NA'; ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Date of birth:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['dob'])); ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Start date of request:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['rec_start_date'])); ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">End date of request:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['rec_end_date'])); ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">record fee limit:</label> <span class="col-md-10 col-xs-8"><?php echo '$' . $data['threshold']; ?></span></div> 
+                                <div class="row"><label class="col-md-2 col-xs-4">Record fee limit $:</label> <span class="col-md-10 col-xs-8"><?php echo $data['threshold']; ?></span></div> 
                                 <div class="row"><label class="col-md-2 col-xs-4">Records Type:</label> <span class="col-md-10 col-xs-8"><?php echo $this->Common->getRecordType($data['record_type']); ?></span></div>    
-                                <div class="row"><label class="col-md-2 col-xs-4">HIPA  A Authorization Form:</label> <div class="col-md-10 col-xs-8"> <?php echo $this->html->link('View HIPAA Authorization Form<i class="fa fa-cloud-download" title="View HIPAA Authorization Form"></i> ', 'img/hippa/original/' . $data['upload_hippa'], ['class' => 'downloadIcon', 'escape' => false, 'target' => '_blank']); ?></div></div>
+                                <div class="row"><label class="col-md-2 col-xs-4">HIPAA Authorization Form:</label> <div class="col-md-10 col-xs-8"> <?php echo $this->html->link('View HIPAA Authorization Form<i class="fa fa-cloud-download" title="View HIPAA Authorization Form"></i> ', 'img/hippa/original/'.$data['upload_hippa'],['class'=>'downloadIcon','escape'=>false,'target' => '_blank']); ?></div></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Date of signature on HIPAA authorization:</label> <div class="col-md-10 col-xs-8"> <?php echo date('M d, Y', strtotime($data['hippa_form_date'])); ?></div></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Date of Request:</label> <div class="col-md-10 col-xs-8"> <?php echo date('M d, Y', strtotime($data['date_of_request'])); ?></div></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Special Instructions:</label> <span class="col-md-10 col-xs-8"><?php echo (!empty($data['description'])) ? $data['description'] : 'NA'; ?></span></div>
-<?php if ($data['finalFees'] != 0) { ?>
-                                    <div class="row"><label class="col-md-2 col-xs-4">Provider's fees:</label> <span class="col-md-10 col-xs-8"><?php echo $data['finalFees']; ?></span></div>
-                                <?php } ?>
+                                
+                                <?php if($data['request_status'] != '0'){?>
+                                <div class="row"><label class="col-md-2 col-xs-4">Request fees $:</label> <span class="col-md-10 col-xs-8 requestFees"><?php echo $data['total_cost']; ?></span></div>
+                                <?php }?>
                                 <br>
-                                <?php
-                                if (!empty($data['request_completion_file_path'])) {
+                                    <?php if(!empty($data['request_completion_file_path'])){
                                     $newArr = unserialize($data['request_completion_file_path']);
                                     ?>
-                                    <div class="row">
-                                        <label class="col-md-2 col-xs-4">Requested Document to provider:</label> <div class="col-md-10 col-xs-8"> <?php
-                                foreach ($newArr as $val) {
-                                    echo $this->html->link('Requested Docs <i class="fa fa-cloud-download" title="View HIPAA Authorization Form"></i> ', '/documents/requestor/' . $data['requestor_id'] . '/' . $data['id'] . '/' . $val, ['class' => 'downloadIcon', 'escape' => false, 'target' => '_blank']);
-                                    echo'<br>';
-                                }
-                                    ?>
-                                        </div>
-                                    </div> 
-                                <?php } ?>
+                                <div class="row">
+                                    <label class="col-md-2 col-xs-4">Requested Document to provider:</label> <div class="col-md-10 col-xs-8"> <?php 
+                                    foreach ($newArr as $val){
+                                     echo $this->html->link('Requested Docs <i class="fa fa-cloud-download" title="View HIPAA Authorization Form"></i> ', '/documents/requestor/'.$data['requestor_id'].'/'.$data['id'].'/'.$val,['class'=>'downloadIcon','escape'=>false,'target' => '_blank']); echo'<br>';    
+                                    }
+                                     ?>
+                                    </div>
+                                </div> 
+                               <?php  }?>
                                 <?php
-                                switch ($data['request_status']) {
-                                    case "4":
-                                        $requestStatusText = "Deny";
-                                        break;
-
-                                    case "6":
-                                        $requestStatusText = "Cancel";
-                                        break;
-
-                                    default:
-                                        $requestStatusText = '';
-                                        break;
-                                }
-
-                                if ($requestStatusText != '') {
-                                    ?>                                
-                                    <div class="row"><label class="col-md-2 col-xs-4">Reason to <?php echo $requestStatusText; ?>:</label> <div class="col-md-10 col-xs-8"> <?php echo $data['reason']; ?></div></div>
-                                <?php } if ($data['requestor_deny_reason'] != '') { ?>                                
-                                    <div class="row"><label class="col-md-2 col-xs-4">Requestor's reason to deny:</label> <div class="col-md-10 col-xs-8" style="color : #ff0000"> <?php echo $data['requestor_deny_reason']; ?></div></div>
-                                <?php } ?>
-
+                                
+                                if($data['request_status'] == 2){
+                                ?>                                
+                                <div class="row"><label class="col-md-2 col-xs-4">Reason to Deny:</label> <div class="col-md-10 col-xs-8"> <?php echo $data['reason'];  ?></div></div>
+                                <?php }  ?>
+                                 
                             </div>
-
-                        </div>
                     </div>
                     <div class="col-md-2 pull-right">                
                         <!--<button type="submit" class="btn btn-info "> Process Request</button>-->              
@@ -448,64 +369,78 @@
         var RS = jQuery("#request_status").val();
 
         updateProgressBar(RS);
-
-        function updateProgressBar(RS) {
+ 
+ function updateProgressBar(RS) {
+            RS = parseInt(RS);
             var items = jQuery(".progress-bar");
+            jQuery(items).find("a").css('pointer-events', 'all');
+
             jQuery.each(items, function (index, item) {
-                if (RS == 5) {
-                    jQuery(item).find("a:not('.closeRequest')").css('pointer-events', 'none');
-                } else {
-                    jQuery(item).find("a").css('pointer-events', 'none');
-                }
+               
                 if (RS >= jQuery(item).attr("data-update")) {
-                    if (RS == 4 || RS == 6) {
-                        jQuery(item).addClass('progress-bar-denied');
-                        jQuery(item).find(".proBarIcon").removeClass('offBg');
-                        jQuery(item).find(".proBarIcon").addClass('progress-bar-denied-icon');
-                    } else {
-                        jQuery(item).addClass('progress-bar-success');
-                        jQuery(item).find(".proBarIcon").removeClass('offBg');
-                        jQuery(item).find(".proBarIcon").addClass('newBg');
-
-                    }
-                    if (jQuery(item).attr("data-update") == 4 || jQuery(item).attr("data-update") == 6) {
-                        jQuery("#newDiv").addClass('progress-bar-success');
-                        jQuery("#openDiv").addClass('progress-bar-success');
-                        jQuery("#newDiv").find('.proBarIcon').addClass('progress-bar-success');
-                        jQuery("#openDiv").find('.proBarIcon').addClass('progress-bar-success');
-                    }
+                    jQuery(item).addClass('progress-bar-success');
+                    jQuery(item).find(".proBarIcon").removeClass('offBg');
+                    jQuery(item).find(".proBarIcon").addClass('newBg');
                     jQuery(item).find("a").css('pointer-events', 'none');
                 }
             });
-        }
 
+            switch (RS) {
+                case 0:
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    break;
+                case 1:
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Accepted');
+                    break;
+                case 2:
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
 
-        jQuery(document).on('click', ".progressUpdate", function () {
-            var update = jQuery(this).attr("data-update");
-            var request_id = jQuery("#request_id").val();
-            if (update == 7) {
-                AjaxService(request_id, update);
+                    break;
+                case 3:
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Threashold limit exceed');   
+                    break;
+                case 4:
+                    var items = jQuery(".progress-bar");
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    break;
+                    
+                case 5:
+                    var items = jQuery(".progress-bar");
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#Records_span").html('Records Available'); 
+                    break;
+                    
+                case 6:
+                    var items = jQuery(".progress-bar");
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#Records_span").html('No Records Found'); 
+                    break;
+                    
+                case 7:
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Requestor denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divinProgress").removeClass('progress-bar-success');
+                    jQuery("#divinProgress").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#divRecords").removeClass('progress-bar-success');
+                    jQuery("#divRecords").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
+
+                    break;
+
+                default:
+                   jQuery(items).find("a").css('pointer-events', 'none');
+                    break;
             }
-        });
-
-        function AjaxService(request_id, update) {
-            jQuery.ajax({
-                type: "POST",
-                data: {id: request_id, request_status: update},
-                url: "/providers/updateRequestStatus",
-                dataType: 'json',
-                success: function (json) {
-                    if (json.status == 'success') {
-                        updateProgressBar(update);
-                        jQuery("#request_status").val(update);
-                    }
-                },
-                error: function () {
-                    // $('.loading').hide();
-                }
-            });
         }
-
+       
     });
 
 

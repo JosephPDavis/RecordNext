@@ -19,6 +19,8 @@ class AppController extends Controller {
         $this->Auth->allow('getDepartmentByProviderId');
         $this->Auth->allow('getMatterList');
         $this->Auth->allow('getMatterData');
+        $this->Auth->allow('adminForgetPassword');
+        $this->Auth->allow('adminResetPassword');
         $this->checkUserSession();
         $this->checkAuthentication();
         

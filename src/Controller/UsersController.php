@@ -270,14 +270,14 @@ class UsersController extends AppController {
 
     public function resetPassword($token = null) {
         $this->viewBuilder()->setLayout('default');
-        $userTable = TableRegistry::get('users');
+        $userTable = TableRegistry::get('users');  
         $userData = $userTable->findUserBytokenID($token);
         if (!empty($userData)) {
             if ($this->request->is(['patch', 'post', 'put'])) {
-                $user = $this->Users->get($userData['id']);
+                $user = $userTable->get($userData['id']);
                 $user->reset_password_flag = 0;
-                $user = $this->Users->patchEntity($user, $this->request->data);
-                if ($this->Users->save($user)) {
+                $user = $userTable->patchEntity($user, $this->request->data);
+                if ($userTable->save($user)) {
                     $this->Flash->success('Password has been updated successfully.', ['params' => ['class' => 'alert alert-success']]);
                     return $this->redirect(['controller' => 'Users', 'action' => 'login']);
                 } else {

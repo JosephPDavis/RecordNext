@@ -103,67 +103,66 @@ class AdminsController extends AppController {
     }
 
     public function getStatusByID($request_id) {
-            switch ($request_id) {
-                    case 0:
-                        return 'Submitted';
-                        break;
-                    
-                    case 1:
-                        return 'Provider Acknowledged';
-                        break;
-                    
-                    case 2:
-                    return 'Provider Denied';
-                        break;
-                        
-                    case 3:
-                     return 'Record Found';
-                        break;
-        
-                    case 4:
-                    return 'No Records Found';
-                        break;
-                    
-                    case 5:
-                    return 'In Progress';
-                        break;
-                    
-                    case 6:
-                    return 'Upload Records';
-                        break;
-                        
-                    case 8:
-                    return 'Records Available for Download';
-                        break;
-                    
-                    case 9:
-                    return 'Requestor Denied';
-                        break;
-                    
-                    case 10:
-                    return 'Requestor Confirmed';
-                        break;
-                    
-                    case 11:
-                    return 'Closed';
-                        break;
-                    
-                    case 12:
-                    return 'Closed';
-                        break;
-                    
-                    case 13:
-                    return 'Closed';
-                        break;
-                    
-                    case 14:
-                    return 'Closed';
-                        break;
+        switch ($request_id) {
+            case 0:
+                return 'Submitted';
+                break;
 
-                    default:
-                    return 'NA';
-                        break;
-                    
+            case 1:
+                return 'Provider Acknowledged';
+                break;
+
+            case 2:
+                return 'Provider Denied';
+                break;
+
+            case 3:
+                return 'Record Found';
+                break;
+
+            case 4:
+                return 'No Records Found';
+                break;
+
+            case 5:
+                return 'In Progress';
+                break;
+
+            case 6:
+                return 'Upload Records';
+                break;
+
+            case 8:
+                return 'Records Available for Download';
+                break;
+
+            case 9:
+                return 'Requestor Denied';
+                break;
+
+            case 10:
+                return 'Requestor Confirmed';
+                break;
+
+            case 11:
+                return 'Closed';
+                break;
+
+            case 12:
+                return 'Closed';
+                break;
+
+            case 13:
+                return 'Closed';
+                break;
+
+            case 14:
+                return 'Closed';
+                break;
+
+            default:
+                return 'NA';
+                break;
         }
     }
 
@@ -289,7 +288,6 @@ class AdminsController extends AppController {
             if (isset($created_date) && $created_date != '') {
                 $conditions += array('date(created)' => date('Y-m-d H:i:s ', strtotime($created_date)));
             }
-
         }
 //        pr($conditions);
         $this->paginate = [
@@ -770,6 +768,18 @@ class AdminsController extends AppController {
 
     public function viewInvoice($id = null) {
         $this->viewBuilder()->setLayout('website_layout');
+        $userTable = TableRegistry::get('users');
+        $request_id = $userTable->decrypt($id);
+        $ProviderPaymentsDetails = TableRegistry::get('provider_payments_details');
+        $ProviderPayments = TableRegistry::get('provider_payments');
+        $requestsTable = TableRegistry::get('requests');
+        if (!empty($id)) {
+            $requestData = $requestsTable->findRequestDataByID($request_id);
+            //find provider payment data
+            $paymentData = $ProviderPayments->findDataByIdRequest($request_id);
+            $this->set('requestData', $requestData);
+            $this->set('paymentData', $paymentData);
+        }
     }
 
     public function makeSinglePayment($id = null) {
@@ -858,7 +868,7 @@ class AdminsController extends AppController {
                     $fees = $post_data['provider_fees'] * 100;  // to change from cent to doller
 
                     \Stripe\Stripe::setApiKey("sk_test_OAYRwtiKanB9quptS09wRN09");
-                    
+
 //                    $tokenArr =   \Stripe\Token::create(array(
 //                          "card" => array(
 //                            "number" => "4242424242424242",
@@ -869,7 +879,6 @@ class AdminsController extends AppController {
 //                        ));
 //                    $tokenArr = json_decode(json_encode($tokenArr), true);
 //                    $token =  $tokenArr['id'];
-                    
 //                    $charge =  \Stripe\Charge::create(array(
 //                        "amount" => 2000000,
 //                        "currency" => "usd",
@@ -950,7 +959,7 @@ class AdminsController extends AppController {
         $requestTable = TableRegistry::get('requests');
         $conditions = [];
         $conditions += ['requests.is_deleted' => 0];
-        $conditions += ['requests.request_status IN' => [0,1,5]];
+        $conditions += ['requests.request_status IN' => [0, 1, 5]];
         if ($this->request->is('post')) {
             $post_data = $this->request->getData();
             $name_keyword = $post_data['by_name'];
@@ -983,8 +992,8 @@ class AdminsController extends AppController {
                 $conditions += array('requests.date_of_request <=' => date('Y-m-d', strtotime($end_date)));
             }
         }
-        
-        
+
+
         $this->paginate = [
             'contain' => ['Provider', 'Clients', 'Matters'],
             'maxLimit' => REC0RDS_LIMIT,
@@ -993,6 +1002,87 @@ class AdminsController extends AppController {
         ];
         $requestData = $this->paginate($requestTable->find())->toArray();
         $this->set('requestData', $requestData);
+    }
+
+    public function adminForgetPassword($param = null) {
+        $this->viewBuilder()->setLayout('admin_layout');
+        if ($this->request->is(['patch', 'post', 'put']) && !empty($this->request->data['email'])) {
+            $userTable = TableRegistry::get('users');
+//            $emailEncrypted = $userTable->encrypt($this->request->data['email']);
+            $emailEncrypted = $this->request->data['email'];
+            $userData = $userTable->findUserByEmailID($emailEncrypted);
+
+            if ($userData['email'] == $this->request->data['email']) {
+
+                $hashCode = md5(uniqid(rand(), true));
+                $user = $userTable->get($userData['id']);
+                $userTable->patchEntity($user, $this->request->getData());
+                $userTable->updateAll(["key_token " => $hashCode, "reset_password_flag" => 1], ["email IN " => $emailEncrypted]);
+
+                // $resetUrl = SITE_URL."/users/resetPassword/".$hashCode;
+                $this->Common->sendEmail($userData['id'], 'Forget Password', $this->request->data['email'], 'adminforgetpassword', $emailData = ['first_name' => $userData['first_name'], 'last_name' => $userData['last_name'], 'hashCode' => $hashCode]);
+                $this->Flash->success('Check your e-mail to reset your password.', ['params' => ['class' => 'alert alert-success']]);
+                return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
+            } else {
+                $this->Flash->error('The e-mail address you have entered does not exists.', ['params' => ['class' => 'alert alert-danger']]);
+            }
+        }
+    }
+
+    public function activationLink($token = null) {
+        $this->autoRender = false;
+        $userTable = TableRegistry::get('users');
+        $userData = $userTable->findUserBytokenIDForActivate($token);
+
+        if ($token == $userData['key_token']) {
+            if ($userData['status'] == '1') {
+                $this->Flash->error('Your Account has been already activated successfully', ['params' => ['class' => 'alert alert-danger']]);
+            } else {
+                $user = $this->Users->get($userData['id']);
+                $user->status = 1;
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                if ($this->Users->save($user)) {
+                    $this->Flash->success('Your Account has been activated successfully.', ['params' => ['class' => 'alert alert-success']]);
+                }
+            }
+        } else {
+            $this->Flash->error('Your Account does not exists.', ['params' => ['class' => 'alert alert-danger']]);
+        }
+        return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+
+    /*  @author Sneha G    
+      @params $token
+      @return no
+     */
+
+    public function adminResetPassword($token = null) {
+        $this->viewBuilder()->setLayout('admin_layout');
+        $userTable = TableRegistry::get('users');
+        $userData = $userTable->findUserBytokenID($token);
+            
+        if (empty($userData['id'])){
+            $this->Flash->error('This link has been expired.Please try again.', ['params' => ['class' => 'alert alert-danger']]);
+            return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
+        }
+        if ($this->request->is('post')) {
+            
+                $userData = $userTable->findUserBytokenID($this->request->data['token']);
+                $user = $userTable->get($userData['id']);
+                $user->reset_password_flag = 0;
+                $user = $userTable->patchEntity($user, $this->request->data);
+                if ($userTable->save($user)) {
+                    $this->Flash->success('Password has been updated successfully.', ['params' => ['class' => 'alert alert-success']]);
+                    return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
+                } else {
+                    $this->Flash->error('Entered old password does not match.Please try again.', ['params' => ['class' => 'alert alert-danger']]);
+                }
+            }
+        $this->set(compact('user'));
+        $this->set('token', $token);   
+        $this->set('_serialize', ['user']);
     }
 
 }

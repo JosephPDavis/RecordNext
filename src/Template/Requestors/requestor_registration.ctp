@@ -44,14 +44,8 @@
                             1=>'Lawyers',
                             2=>'Insurance Company'
                         ];?>
-                         <div role="select" class="jelect"  tabindex="7">
-                            <input id="jelect" name="type" value="0" data-text="imagemin" type="select" class="jelect-input" tabindex="7">
-                            <div role="button" class="jelect-current">Requestor Type</div>
-                            <ul class="jelect-options">
-                                <li data-val='1' role="option" class="jelect-option jelect-option_state_active">Lawyers </li>
-                                <li data-val='2' role="option" class="jelect-option">Insurance Company</li>
-                            </ul>
-                        </div> 
+                         
+                        
                         <div class="input-group">
                             <?= $this->Form->control('street_address', ['class' => '','type' => 'text', 'id'=>'street_address', 'required'=>'required', 'placeholder'=>'Enter Street Address', 'label'=>false,'maxlength'=>30,'tabindex'=>9]) ?>
                         </div>
@@ -67,6 +61,14 @@
                                 <!--<li data-val='2' role="option" class="jelect-option">Insurance Company</li>-->
                             </ul>
                         </div>
+                        <div role="select" class="jelect"  tabindex="7">
+                            <input id="jelect" name="type" value="0" data-text="imagemin" type="select" class="jelect-input" tabindex="7">
+                            <div role="button" class="jelect-current">Requestor Type</div>
+                            <ul class="jelect-options">
+                                <li data-val='1' role="option" class="jelect-option jelect-option_state_active">Lawyers </li>
+                                <li data-val='2' role="option" class="jelect-option">Insurance Company</li>
+                            </ul>
+                        </div> 
                          
                     </div>
                     <div class="col-md-5">

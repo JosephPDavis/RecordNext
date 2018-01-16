@@ -43,12 +43,12 @@
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'value'=>$name_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->               
-                            <span class="help-block pull-left spn100">By name </span>
+                            <span class="help-block pull-left spn100 label-search">By name </span>
                         </div>
                         <div class="col-md-2">  
                             <?php echo $this->Form->input('by_id',array('label' => false,'div' => false,'value'=>$id_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->
-                            <span class="help-block pull-left spn100">By matter id, request id </span>
+                            <span class="help-block pull-left spn100 label-search">By matter id, request id </span>
                         </div><!--
                         -->       
                         <div class="col-md-2">                
@@ -60,13 +60,13 @@
                                 <!--<input type="text" class="form-control pull-right" id="datepicker">-->
 
                             </div>
-                            <span class="help-block">Search by date</span>
+                            <span class="help-block label-search">Search by date</span>
                         </div>
                         <div class="col-md-2">                
                                 <?php 
                                 $dateDateRange = ['>'=>'> Greater than','<'=>'< Less than','>='=>'>= Greater than equal to','<='=>'<= Less than equal to'];
                                 echo $this->Form->input('by_date_range',array('label' => false,'type'=>'select','options'=>$dateDateRange,'div' => false,'value'=>$date_range ,'empty'=>"Select duration" , 'class' => 'form-control pull-right','id'=>"date_range"));?>  
-                            <span class="help-block pull-left spn100">Select the duration</span>
+                            <span class="help-block pull-left spn100 label-search">Select the duration</span>
                         </div>
 
                         <div class="col-md-2">     

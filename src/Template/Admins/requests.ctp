@@ -27,11 +27,11 @@
                     <div class="row">
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>                 
-                            <span class="help-block pull-left spn100">By name</span>
+                            <span class="help-block pull-left spn100 label-search">By name</span>
                         </div>
                         <div class="col-md-2">  
                             <?php echo $this->Form->input('by_id',array('label' => false,'div' => false, 'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
-                            <span class="help-block pull-left spn100">By matter id, request id </span>
+                            <span class="help-block pull-left spn100 label-search">By matter id, request id </span>
                         </div><!--
                         -->       
                         <div class="col-md-2">                
@@ -42,7 +42,7 @@
                                 <?php echo $this->Form->input('by_start_date',array('label' => false,'div' => false, 'placeholder'=>"Search" , 'class' => 'form-control pull-right','id'=>"start_datepicker"));?> 
 
                             </div>
-                            <span class="help-block">search by start date</span>
+                            <span class="help-block label-search">search by start date</span>
                         </div>
                         <div class="col-md-2">                
                             <div class="input-group date">
@@ -52,7 +52,7 @@
                                 <?php echo $this->Form->input('by_end_date',array('label' => false,'div' => false,'placeholder'=>"Search" , 'class' => 'form-control pull-right','id'=>"end_datepicker"));?>  
 
                             </div>
-                            <span class="help-block">search by end date</span>
+                            <span class="help-block label-search">search by end date</span>
                         </div>
                         <div class="col-md-2">     
                             <?php echo $this->Form->button('<i class="fa fa-search"></i> Search', array('div' => false, 'class'=>'btn btn-info','type'=>'submit'),array('escape' => false)); ?>              

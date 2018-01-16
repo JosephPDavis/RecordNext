@@ -51,7 +51,14 @@ class NotificationsController extends AppController {
                 $replace = array($requestData['request_id'], $request_status);
                 $message = str_replace($haystack, $replace, $val['Message']['message']);
                 $Notid = $usersTable->encrypt($val['request_id']);
-                $notificationDom .= "<li class='word-wrap'><a href='/requestors/viewRequest/$Notid'>";
+                if($userSession['role_id'] ==1){
+                    $notificationDom .= "<li class='word-wrap'><a href='/admins/viewRequest/$Notid'>";
+                }elseif($userSession['role_id'] ==2){
+                    $notificationDom .= "<li class='word-wrap'><a href='/providers/viewRequest/$Notid'>";
+                }elseif($userSession['role_id'] ==3){
+                    $notificationDom .= "<li class='word-wrap'><a href='/requestors/viewRequest/$Notid'>";
+                }
+//                $notificationDom .= "<li class='word-wrap'><a href='/requestors/viewRequest/$Notid'>";
                 $notificationDom .= '<i class="fa fa-dot-circle-o text-aqua"></i>';
                 $notificationDom .= $message;
                 $notificationDom .= '</a></li>';
@@ -88,11 +95,18 @@ class NotificationsController extends AppController {
         $notificationData = $notificationsTable->getNotificationByID($userSession['id']);
         if (!empty($this->request->data)) {
             $notificationIds = $this->request->data['ids'];
-
-            $query = $notificationsTable->query();
+            $notificationIdsArr = explode(',', $notificationIds);
+             $query = $notificationsTable->query();
+//            foreach ($notificationIds as $id){
+//            $notificationsRow = $notificationsTable->get($id);
+//            $notificationsRow->status = 1;
+//            $notificationsTable->save($notificationsRow);
+//            $update = true;
+//            }
+                    
             $update = $query->update()
                     ->set(['status' => 1])
-                    ->where(['id IN' => $notificationIds])
+                    ->where(['id IN' => $notificationIdsArr])
                     ->execute();
             if ($update) {
                 $arrResponse['status'] = 'success';

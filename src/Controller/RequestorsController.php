@@ -662,12 +662,8 @@ class RequestorsController extends AppController {
         $this->autoRender = false;
         $matterTable = TableRegistry::get('matters');
         $arrJson = array();
-//        pr($this->request->query);
-//        pr($this->request->data);
-//exit('dfsf');
         $term = $this->request->query['query'];
         $client_id = $this->request->query['group'];
-
         $condition = ['is_deleted' => 0, 'status' => 1, 'client_id' => $client_id];
         if ((!empty($term))) {
 

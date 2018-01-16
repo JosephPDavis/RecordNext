@@ -61,7 +61,7 @@
         background-color: #ff0000;
     }
     .progress-bar{
-        width: 12.5%;
+        width: 18%;
     }
     .progress-bar-denied {
         background-color: #ff0000;
@@ -88,9 +88,9 @@
         line-height: 12px;
         position: initial;
         text-align: center;
-        width: 90px;
+        width:100px;
         margin-left: -33px;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .progress.proBar {
         margin-bottom: 60px;
@@ -169,7 +169,24 @@
     .request-fee-blk{
         display: none;
     }
-   
+    .reasonDiv{
+        display: none;
+    }
+    .response_span_success,#Records_span,#provider_response_span{
+        color : #337ab7;
+    }
+    .response_span_denied{
+        color : #ff0000;
+    }
+    .lead{
+     font-size: 16px;   
+    }
+    #ProFeesChangeDiv{
+        display: none;
+    }
+    .thresholdError{
+        display: none;
+    }
 </style>
 
 <section class="content-header">
@@ -189,6 +206,11 @@
     <!-- Small boxes (Start box) -->
     <div class="row">
         <div class="col-xs-12">
+            <?php if($data['request_status'] == 3){?>
+            <div class="alert alert-warning">
+                <strong>Warning!</strong> This request is currently pending on requestor end due to threshold limit exceeded.
+            </div>
+            <?php } ?>
             <?php // echo $this->Session->flash();   ?>
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -202,138 +224,47 @@
                                 <!--<h3 style="margin-top: 0;">Personal Information</h3>-->
                                 <div class="row" style="margin-top: 15px;">
                                     <label class="col-md-2 col-xs-2"> Request Status:</label>
-                                    <div class="col-md-10 col-xs-10" style="margin-top: 60px;margin-bottom:60px;"> 
+                                    <div class="col-md-10 col-xs-10"> 
                                         <div class="progress proBar">
                                             <input type="hidden" id="request_id" name="request_id" value="<?php echo $data['id']; ?>">
                                             <input type="hidden" id="requestor_id" name="requestor_id" value="<?php echo $data['requestor_id']; ?>">
 
-                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted newDiv">
+                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted">
                                                 <a href="javascript:void(0);" data-update="0" class="progressUpdate" id="submitted">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/new_icon.png"/>
-                                                        <span class="proBarName">Submitted</span>    
+                                                        <span class="proBarName">New</span>    
                                                     </span>
                                                 </a>
                                             </div>
-                                            <div class="rotated-circle-outer">
-                                                <div class="curved-line" id="divDeniedLine"></div>
-                                                    <div class="progress-bar " data-update="2" id="divDenied">
-                                                        <a href="javascript:void(0);" data-update="2" class="progressUpdate" id="denied">
-                                                            <span class="proBarIcon offBg circle-section-outer"><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new upper-txt">Provider Denied</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            <div class="rotated-circle-outer">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="13" id="divClosed">
-                                                            <a href="javascript:void(0);" data-update="13" class="progressUpdate closeRequest" id="closed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName upper-txt">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="progress-bar" data-update="1" id="divConfirmed">
-                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="confirmed">
+                                             
+                                            <div class="progress-bar" data-update="1" id="divprovider_response">
+                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="provider_response">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/confirmed_icon.png"/>
-                                                        <span class="proBarName">Provider<br/>Acknowledged</span>    
+                                                        <span class="proBarName">Provider Response</span>    
+                                                        <span id="provider_response_span"></span> 
                                                     </span>
                                                 </a>   
                                             </div>
-                                            
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                                <div class="curved-line curved-line-bottom" id="divNoRecFoundLine"></div>
-                                                    <div class="progress-bar " data-update="4" id="divNoRec">
-                                                        <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="NoRec">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new">No Record Found</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="14" id="divClosed">
-                                                            <a href="javascript:void(0);" data-update="14" class="progressUpdate closeRequest" id="closed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="progress-bar"  data-update="3" id="divRecFound">
-                                                <a href="javascript:void(0);" data-update="3" class="progressUpdate" id="recFound">
+                                             
+                                            <div class="progress-bar"  data-update="4" id="divinProgress">
+                                                <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="inProgress">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">Record Found</span>    
+                                                        <span class="proBarName">In progress</span>    
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar"  data-update="5" id="divInProgress">
-                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="inProgress">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">In Progress</span>    
+                                            <div class="progress-bar"  data-update="5" id="divRecords">
+                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="Records">
+                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
+                                                        <span class="proBarName">Results</span>   
+                                                        <span class="proBarName" id="Records_span"></span> 
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar " data-update="6" id="divCompleted">
-                                                <a href="javascript:void(0);" data-update="6" class="progressUpdate" id="completed">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_uploaded_icon.png"/>
-                                                        <span class="proBarName">Upload Records</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-                                            <div class="progress-bar " data-update="8" id="divPaid">
-                                                <a href="javascript:void(0);" data-update="8" class="progressUpdate" id="paid">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/Paid_icon.png"/>
-                                                        <span class="proBarName">Paid</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-                                            <div class="rotated-circle-outer-2">
-                                                <div class="curved-line" id="divReqDeniedLine"></div>
-                                                    <div class="progress-bar " data-update="9" id="divReqDenied">
-                                                        <a href="javascript:void(0);" data-update="9" class="progressUpdate" id="ReqDenied">
-                                                            <span class="proBarIcon offBg circle-section-outer"><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new upper-txt">Requestor Denied</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            <div class="rotated-circle-outer-2">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="13" id="divReqDeniedClosed">
-                                                            <a href="javascript:void(0);" data-update="13" class="progressUpdate closeRequest" id="ReqDeniedClosed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName upper-txt">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                                <div class="curved-line curved-line-bottom" id="divReqConfLine"></div>
-                                                    <div class="progress-bar " data-update="10" id="divReqConf">
-                                                        <a href="javascript:void(0);" data-update="10" class="progressUpdate" id="ReqConf">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new">Requestor Confirmed</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="14" id="divReqConfClosed">
-                                                            <a href="javascript:void(0);" data-update="14" class="progressUpdate closeRequest" id="ReqConfClosed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-
                                         </div>   
                                     </div>
                                 </div>
+                               
                                 <input type="hidden" name="request_status" id="request_status" value="<?php echo $data['request_status']; ?>">
                                 <?php
                                 $requestor_data = $this->Common->getRequesterData($data['requestor_id']);
@@ -392,7 +323,8 @@
                                 <div class="row"><label class="col-md-2 col-xs-4">Date of birth:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['dob'])); ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Start date of request:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['rec_start_date'])); ?></span></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">End date of request:</label> <span class="col-md-10 col-xs-8"><?php echo date('M d, Y', strtotime($data['rec_end_date'])); ?></span></div>
-                                <div class="row"><label class="col-md-2 col-xs-4">Record fee limit $:</label> <span class="col-md-10 col-xs-8"><?php echo $data['threshold']; ?></span></div>    
+                                <div class="row"><label class="col-md-2 col-xs-4">Record fee limit $:</label> <span class="col-md-10 col-xs-8"><?php echo $data['threshold']; ?></span></div>   
+                                <input type="hidden" id ='threshold' name="threshold" value="<?php echo $data['threshold']; ?>" >
                                 <div class="row"><label class="col-md-2 col-xs-4">Records Type:</label> <span class="col-md-10 col-xs-8"><?php echo $this->Common->getRecordType($data['record_type']); ?></span></div>    
                                 <div class="row"><label class="col-md-2 col-xs-4">HIPAA Authorization Form:</label> <div class="col-md-10 col-xs-8"> <?php echo $this->html->link('View HIPAA Authorization Form<i class="fa fa-cloud-download" title="View HIPAA Authorization Form"></i> ', 'img/hippa/original/' . $data['upload_hippa'], ['class' => 'downloadIcon', 'escape' => false, 'target' => '_blank']); ?></div></div>
                                 <div class="row"><label class="col-md-2 col-xs-4">Date of signature on HIPAA authorization:</label> <div class="col-md-10 col-xs-8"> <?php echo date('M d, Y', strtotime($data['hippa_form_date'])); ?></div></div>  
@@ -423,97 +355,6 @@
                                 <?= $this->Form->control('finalFees', ['class' => 'form-control', 'type' => 'hidden', 'id' => 'finalFees', 'label' => false, 'autocomplete' => 'off', 'value' => (isset($data['total_cost']) ? $data['total_cost'] : '')]) ?>
                                 <?= $this->Form->control('fees', ['class' => 'form-control', 'type' => 'hidden', 'id' => 'fees', 'label' => false, 'autocomplete' => 'off', 'value' => (isset($fees) ? $fees : '')]) ?>
 <?= $this->Form->control('feesType', ['class' => 'form-control', 'type' => 'hidden', 'id' => 'feesType', 'label' => false, 'autocomplete' => 'off', 'value' => (isset($feestype) ? $feestype : '')]) ?>
-                                 <?Php /*<div class="row" style="margin-top: 15px;">
-                                    <label class="col-md-2 col-xs-2"> Request Status:</label>
-                                    <div class="col-md-10 col-xs-10" style="margin-top: 7px;"> 
-                                      <div class="progress proBar">
-                                      <input type="hidden" id="request_id" name="request_id" value="<?php echo $data['id']; ?>">
-                                      <input type="hidden" id="requestor_id" name="requestor_id" value="<?php echo $data['requestor_id']; ?>">
-
-                                      <div class="progress-bar" data-update="0" id="divSubmitted newDiv">
-                                      <a href="javascript:void(0);" data-update="0" class="progressUpdate" id="submitted">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/new_icon.png"/>
-                                      <span class="proBarName">Submitted</span>
-                                      </span>
-                                      </a>
-                                      <div class="rotated-circle-outer">
-                                      <div class="curved-line"></div>
-                                      <span class="proBarIcon newBg circle-section-outer">
-                                      <img src="img/new_icon.png" alt="" class="img-circle">
-                                      <span class="proBarName circle-txt-new">New</span>
-                                      </span>
-                                      <div class="curved-line straight-line"></div>
-                                      <span class="proBarIcon newBg upper-circle">
-                                      <img src="img/open_icon.png" alt="" />
-                                      <span class="proBarName">Open</span>
-                                      </span>
-                                      </div>
-                                      </div>
-                                      <div class="progress-bar" data-update="1" id="divConfirmed">
-                                      <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="confirmed">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/confirmed_icon.png"/>
-                                      <span class="proBarName">Provider<br/>Acknowledged</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <div class="progress-bar " data-update="2" id="divDenied">
-                                      <a href="javascript:void(0);" data-update="2" class="progressUpdate" id="denied">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                      <span class="proBarName">Provider Denied</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <div class="progress-bar"  data-update="3" id="divInProgress">
-                                      <a href="javascript:void(0);" data-update="3" class="progressUpdate" id="inProgress">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                      <span class="proBarName">In Progress</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <div class="progress-bar " data-update="4" id="divNoRec">
-                                      <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="NoRec">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/cancelled_icon.png"/>
-                                      <span class="proBarName">No Records<br/>Found</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <div class="progress-bar " data-update="5" id="divCompleted">
-                                      <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="completed">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_uploaded_icon.png"/>
-                                      <span class="proBarName">Records Uploaded</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <div class="progress-bar " data-update="6" id="divPaid">
-                                      <a href="javascript:void(0);" data-update="6" class="progressUpdate" id="paid">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/Paid_icon.png"/>
-                                      <span class="proBarName">Paid</span>
-                                      </span>
-                                      </a>
-                                      </div>
-                                      <!--                                                <div class="progress-bar " data-update="7" id="divDlAvailable">
-                                      <a href="javascript:void(0);" data-update="7" class="progressUpdate" id="dlAvailable">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
-                                      <span class="proBarName">Records Available<br/>for Download</span>
-                                      </span>
-                                      </a>
-                                      </div> -->
-
-                                      <div class="progress-bar " data-update="8" id="divClosed">
-                                      <a href="javascript:void(0);" data-update="8" class="progressUpdate closeRequest" id="closed">
-                                      <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                      <span class="proBarName">Closed</span>
-                                      </span>
-                                      </a>
-                                      </div>
-
-                                      </div>
-                                      </div>
-                                      </div>
-                                      <input type="hidden" name="request_status" id="request_status" value="<?php echo $data['request_status']; ?>">
-                                     
-                                </div>*/ ?>
-
                             </div>
                         </div>
                     </div><!-- /.box-body -->
@@ -522,9 +363,10 @@
         </div><!-- /.row -->
         <!-- Main row -->
 </section><!-- /.content -->
+ 
 
-<div id="denyModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+<div id="ProviderResponseModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -532,14 +374,99 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">You are going to change the request status to <strong id="statusName"></strong>. Please specify the reason below.</label>
-                    <textarea class="form-control" id="reason" rows="3"></textarea>
-                    <input type="hidden" id="dataUpdate" name="dataUpdate">
+                    <label for="exampleFormControlTextarea1">Please confirm whether you are accepting or denying the request?</label>
+                </div>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="ProviderResponseIn" value="1">Accept
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="ProviderResponseIn" value="2">Deny
+                  </label> 
+                    
+                </div>
+                <div class="reasonDiv">
+                    <div class="form-group" >
+                        <label for="exampleFormControlTextarea1">Please specify the reason to deny the request?</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="reason" rows="3"></textarea>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveReason">Save changes</button>
+                <button type="button" class="btn btn-primary" id="ProviderResponseBtn">Save changes</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ProviderResultModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Please confirm request's record status.</label>
+                </div>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="ProviderResultIn" value="1">Found
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="ProviderResultIn" value="2">Not Found 
+                  </label> 
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="ProviderResultBtn">Save changes</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ThreasHoldModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">The fees you are  quoting is higher than the threshold fees quoted in Request. Please confirm you wish to proceed.</label>
+                </div>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="ThreasHoldIn" value="1">Proceed
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="ThreasHoldIn" value="2">Change fees
+                  </label> 
+                </div>
+                <div class="form-group" id="ProFeesChangeDiv"> 
+                     <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Please enter revised fees.</label>
+                    </div>
+                    <label class="radio-inline">
+                        <input type="text" name="ProFeesChange" value="" id="ProFeesChange">
+                    </label>
+                    
+                       <label class="error thresholdError">Revised rate should be less than or equal to threshold value set by requestor.</label>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="ThreasHoldBtn">Save changes</button>
             </div>
         </div>
 
@@ -547,7 +474,7 @@
 </div>
 
 <div id="PriceModel" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -562,7 +489,7 @@
                 </div>
                 <div class="form-group">
                     <div class="row">
-<?php if ($feestype == 1) { ?>
+                <?php if ($feestype == 1) { ?>
                             <div class="col-sm-12">
                                 <div class="price-form">
                                     <label for="exampleFormControlTextarea1" class="control-label">You are going to accept this request. Please confirm your fees for completing this request.</label>
@@ -610,7 +537,7 @@
                                 </div>
 
                             </div>
-<?php } else { ?>
+                <?php } else { ?>
                             <div class="col-sm-12">
                                 <div class="price-form">
                                     <label for="exampleFormControlTextarea1" class="control-label">You are going to accept this request. Please confirm your fees for completing this request.</label>
@@ -648,8 +575,7 @@
                                 </div>
 
                             </div>
-<?php } ?>
-
+                <?php } ?>
                         <input type="hidden" id="dataUpdate" name="dataUpdate">
                     </div>
                 </div>
@@ -669,7 +595,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="uploadModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -739,129 +664,120 @@
 
             switch (RS) {
                 case 0:
-                    jQuery(items).find("a:not('#confirmed'):not('#denied')").css('pointer-events', 'none');
+                    jQuery(items).find("a:not('#provider_response')").css('pointer-events', 'none');
                     break;
                 case 1:
-                    jQuery(items).find("a:not('#recFound'):not('#NoRec')").css('pointer-events', 'none');
+                    jQuery(items).find("a:not('#inProgress')").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Accepted');
                     break;
                 case 2:
-                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divDenied").removeClass('progress-bar-success').addClass('progress-bar-denied');
-                    jQuery("#divDeniedLine").addClass('progress-bar-denied');
-                    jQuery("#divConfirmed").removeClass('progress-bar-success');
-                    jQuery("#divDenied").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
-                     jQuery("#divConfirmed").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#provider_response_span").html('Povider Denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
+
                     break;
                 case 3:
-                    jQuery(items).find("a:not('#inProgress')").css('pointer-events', 'none');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    //window.location.reload();
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Threashold limit exceed');   
                     break;
                 case 4:
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divRecFound").removeClass('progress-bar-success');
-                    jQuery("#divNoRecFoundLine").addClass('progress-bar-success');
-                    jQuery("#divRecFound").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    var items = jQuery(".progress-bar");
+                    jQuery(items).find("a:not('#Records')").css('pointer-events', 'none');
                     break;
+                    
                 case 5:
-                    jQuery(items).find("a:not('#completed')").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 6:
+                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#Records_span").html('Records Available'); 
                     break;
-
+                    
+                case 6:
+                    var items = jQuery(".progress-bar");
+                    jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#Records_span").html('No Records Found'); 
+                    break;
+                
                 case 7:
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#provider_response_span").html('Requestor denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
                     break;
-                case 8:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                                                          
-                case 9:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divReqDenied").find(".proBarIcon").addClass('progress-bar-denied').removeClass('newBg');
-                    jQuery("#divReqDeniedLine").addClass('progress-bar-denied');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 10:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divReqConf").find(".proBarIcon").addClass('progress-bar-success').addClass('newBg');
-                    jQuery("#divReqConfLine").addClass('progress-bar-success');
-                    jQuery("#divReqDenied").removeClass('progress-bar-success');
-                    jQuery("#divReqDenied").find(".proBarIcon").removeClass('newBg');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 11:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 12:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 13:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 14:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-               
 
                 default:
-                    alert('not found')
+                   jQuery(items).find("a").css('pointer-events', 'none');
                     break;
             }
-
-
         }
 
-
+        $("input[name$='ProviderResponseIn']").click(function() {
+            var ProviderResponseOP = $(this).val();
+            if(ProviderResponseOP == 2){ 
+                jQuery(".reasonDiv").css('display','block');
+                $("#ProviderResponseBtn").attr("id", "saveDenyModel");
+            }
+             if(ProviderResponseOP == 1){ 
+                jQuery(".reasonDiv").css('display','none');
+            }
+        });  
+        
+        $("input[name$='ThreasHoldIn']").click(function() {
+            var ThreasHoldOP = $(this).val();
+            if(ThreasHoldOP == 2){ 
+                jQuery("#ProFeesChangeDiv").css('display','block');
+            }
+            if(ThreasHoldOP == 1){ 
+                jQuery("#ProFeesChangeDiv").css('display','none');
+            }
+        });    
+        
+        jQuery(document).on('click', "#saveDenyModel", function () {
+                var update = 2;
+                var reason = jQuery("#reason").val();
+                var request_id = jQuery("#request_id").val();
+                jQuery.ajax({
+                    type: "POST",
+                    data: {id: request_id, request_status: update, reason: reason},
+                    url: "/providers/saveReason",
+                    dataType: 'json',
+                    success: function (json) {
+                        if (json.status == 'success') {
+                            AjaxService(request_id, update);
+                            updateProgressBar(update);
+                            jQuery("#request_status").val(update);
+                            jQuery("#ProviderResponseModal").modal('hide');
+                            jQuery("#provider_response_span").html('Denied');    
+                            jQuery("#provider_response_span").addClass('response_span_denied');  
+                            jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                            jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
+                        }
+                    },
+                    error: function () {
+                        // $('.loading').hide();
+                    }
+                });
+        });
 
         jQuery(document).on('click', ".progressUpdate", function (e) {
             
             var update = jQuery(this).attr("data-update");
             var request_id = jQuery("#request_id").val();
             if (update == 1) {
-                $('#PriceModel').modal('show');
+                $('#ProviderResponseModal').modal('show');
+                $("#dataUpdate").val(update);
             } else if (update == 2) {
                 $("#statusName").html("Denied");
                 $("#dataUpdate").val(update);
                 $('#denyModal').modal('show');
-            } else if (update == 6) {
+            } else if (update == 5) {
                 e.preventDefault();
-                $('#uploadModal').modal('show');
-
+                $('#ProviderResultModal').modal('show');
             } else {
                 AjaxService(request_id, update);
-                //updateProgressBar(update);
+                updateProgressBar(update);
             }
         });
 
@@ -869,6 +785,7 @@
             var update = jQuery("#dataUpdate").val();
             var reason = jQuery("#reason").val();
             var request_id = jQuery("#request_id").val();
+            $('#loddingImage').show();
             jQuery.ajax({
                 type: "POST",
                 data: {id: request_id, request_status: update, reason: reason},
@@ -876,6 +793,7 @@
                 dataType: 'json',
                 success: function (json) {
                     if (json.status == 'success') {
+                         $('#loddingImage').hide();
                         AjaxService(request_id, update);
                         updateProgressBar(update);
                         jQuery("#request_status").val(update);
@@ -888,7 +806,32 @@
             });
 
         });
-
+        jQuery(document).on('click', "#ProviderResponseBtn", function () {
+            if($("input:radio[name=ProviderResponseIn]:checked").val() == undefined){
+                return false;
+            }
+            if($("input[name$='ProviderResponseIn']").val() == 1){
+                jQuery('#ProviderResponseModal').modal('hide');
+                jQuery('#PriceModel').modal("show");
+            }
+        });
+        
+        jQuery(document).on('click', "#ProviderResultBtn", function () {
+            var request_id = jQuery("#request_id").val();
+             if($("input:radio[name=ProviderResultIn]:checked").val() == undefined){
+                return false;
+            }
+            if($("input:radio[name=ProviderResultIn]:checked").val() == 1){
+                jQuery('#ProviderResultModal').modal('hide');
+                jQuery('#uploadModal').modal("show");
+            }else if($("input:radio[name=ProviderResultIn]:checked").val() == 2){
+                jQuery("#request_status").val(6);
+                jQuery("#ProviderResultModal").modal('hide');
+                jQuery("#Records_span").html('No Records Found');    
+                AjaxService(request_id, 6);
+                updateProgressBar(6);
+            }
+        });
         // Variable to store your files
         var files;
 
@@ -959,6 +902,8 @@
                     if (json.status == 'success') {
                         $('#loddingImage').hide();
                         jQuery("#uploadModal").modal("hide");
+                        jQuery("#Records_span").html('Records Available');    
+                        jQuery("#Records_span").addClass('response_span_success'); 
                         AjaxService(request_id, 8);
                         bootbox.alert("The documents have been uploaded successfully for this request!",
                                 function () {
@@ -987,7 +932,7 @@
                     json = $.parseJSON(JSON.stringify(json));
                     if (json.status == 'success') {
                         jQuery("#request_status").val(update);
-                        updateProgressBar(update);
+                        //updateProgressBar(update);
                         //window.location.reload();
                     }
                 },
@@ -1010,7 +955,8 @@
             var num = pages * fees;
             var adminPercentage = parseInt(jQuery('#adminPercentage').attr('data-adminshare'));
             //final = percentage(num, adminPercentage);
-            jQuery("#totalFees").val(adminPercentage + num);
+            var totalFees = adminPercentage + num;
+            jQuery("#totalFees").attr('value', parseInt(totalFees));
             jQuery("#ProFees").val(num);
             jQuery("#adminFees").val(adminPercentage);
         });
@@ -1022,9 +968,16 @@
 
         jQuery(document).on('click', "#pay", function () {
             $('#loddingImage').show();
+            var threshold = jQuery("#threshold").val();
             var update = 1;
             var request_id = jQuery("#request_id").val();
             var finalFees = parseInt(jQuery("#totalFees").val());
+            if(finalFees > threshold){
+                jQuery("#PriceModel").modal('hide');
+                jQuery("#ThreasHoldModal").modal('show');
+                $('#loddingImage').hide();
+                return false;
+            }
             var ProFees = parseInt(jQuery("#ProFees").val());
             var feesType = jQuery("#feesType").val();
             var system_fee = parseInt(jQuery("#adminFees").val());
@@ -1050,14 +1003,78 @@
                     if (json.status == 'success') {
                         updateProgressBar(update);
                         jQuery("#request_status").val(update);
-                        //jQuery('#PriceModel').modal('hide');
                         jQuery("#payUpdatedSuccess").show();
                         jQuery(".request-fee-blk").show();
                         jQuery(".requestFees").html(finalFees);
-
+                        jQuery("#provider_response_span").html('Accepted');    
+                        jQuery("#provider_response_span").addClass('response_span_success');    
                         setTimeout(function () {
                             $('#loddingImage').hide();
                             $('#PriceModel').modal("hide");
+                        }, 3000);
+                    } else if (json.status == 'error') {
+                        jQuery("#payUpdatedFailure").show();
+                    } else {
+
+                    }
+                },
+                error: function () {
+                    // $('.loading').hide();
+                }
+            });
+
+        });
+        
+        jQuery(document).on('click', "#ThreasHoldBtn", function () {
+            $('#loddingImage').show();
+            var threshold = jQuery("#threshold").val();
+            var update = 1;
+            var request_id = jQuery("#request_id").val();
+           
+            if($("input:radio[name=ThreasHoldIn]:checked").val() == 2){
+                 var finalFees = parseInt(jQuery("#ProFeesChange").val());
+                if(finalFees > threshold){
+                    jQuery(".thresholdError").show();
+                    $('#loddingImage').hide();
+                    return false;
+                }
+                jQuery("#ProFees").val( parseInt(jQuery("#threshold").val() - jQuery("#adminFees").val()));
+                var ProFees = parseInt(jQuery("#ProFees").val());
+            } else{
+                 var finalFees = parseInt(jQuery("#totalFees").val());
+                update = 3;
+            }
+            var ProFees = parseInt(jQuery("#ProFees").val()); 
+            var feesType = jQuery("#feesType").val();
+            var system_fee = parseInt(jQuery("#adminFees").val());
+            if (feesType == '1') {
+                var pages = parseInt(jQuery('#noOfPages').val());
+                if (isNaN(pages) || pages == '') {
+                    return false;
+                }
+
+                data = {id: request_id, request_status: update, finalFees: finalFees, ProFees: ProFees, feesType: feesType, pages: pages, system_fee: system_fee}
+            } else {
+
+                data = {id: request_id, request_status: update, finalFees: finalFees, feesType: feesType, ProFees: ProFees, system_fee: system_fee}
+            }
+
+            jQuery.ajax({
+                type: "POST",
+                data: data,
+                url: "/providers/savePayment",
+                dataType: 'json',
+                success: function (json) {
+                    json = $.parseJSON(JSON.stringify(json));
+                    if (json.status == 'success') {
+                        updateProgressBar(update);
+                        jQuery("#request_status").val(update);
+                        jQuery("#payUpdatedSuccess").show();
+                        jQuery(".request-fee-blk").show();
+                        jQuery(".requestFees").html(finalFees);
+                        setTimeout(function () {
+                            $('#loddingImage').hide();
+                            $('#ThreasHoldModal').modal("hide");
                         }, 3000);
                     } else if (json.status == 'error') {
                         jQuery("#payUpdatedFailure").show();

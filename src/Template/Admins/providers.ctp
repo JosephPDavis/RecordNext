@@ -25,11 +25,11 @@
                     <div class="row">
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>                 
-                            <span class="help-block pull-left spn100">By full name</span>
+                            <span class="help-block pull-left spn100 label-search">By full name</span>
                         </div>
                         <div class="col-md-2">  
                             <?php echo $this->Form->input('by_email',array('label' => false,'div' => false, 'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>60));?>  
-                            <span class="help-block pull-left spn100">By Email</span>
+                            <span class="help-block pull-left spn100 label-search">By Email</span>
                         </div>
                         <div class="col-md-2">                
                             <div class="input-group date">
@@ -39,7 +39,7 @@
                                 <?php echo $this->Form->input('by_date',array('label' => false,'div' => false,'placeholder'=>"Search" , 'class' => 'form-control pull-right','id'=>"end_datepicker"));?>  
 
                             </div>
-                            <span class="help-block">By date</span>
+                            <span class="help-block label-search">By date</span>
                         </div>
                         <div class="col-md-2">     
                             <?php echo $this->Form->button('<i class="fa fa-search"></i> Search', array('div' => false, 'class'=>'btn btn-info','type'=>'submit'),array('escape' => false)); ?>              

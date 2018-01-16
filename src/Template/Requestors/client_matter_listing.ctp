@@ -37,12 +37,12 @@
                         <div class="col-md-3"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'value'=>$name_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->               
-                            <span class="help-block pull-left spn100">By client/matter name </span>
+                            <span class="help-block pull-left spn100 label-search">By client/matter name </span>
                         </div>
                         <div class="col-md-3">  
                             <?php echo $this->Form->input('by_id',array('label' => false,'div' => false,'value'=>$id_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->
-                            <span class="help-block pull-left spn100">By client/matter number </span>
+                            <span class="help-block pull-left spn100 label-search">By client/matter number </span>
                         </div><!--
                         -->       
                         <div class="col-md-2">     

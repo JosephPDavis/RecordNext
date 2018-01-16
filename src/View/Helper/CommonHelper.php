@@ -40,7 +40,7 @@ class CommonHelper extends Helper {
         $data = array();
         $proTable = TableRegistry::get('users');
         $data = $proTable->find('all', array(
-                    'conditions' => array('id' => $id)
+                    'conditions' => array('id' => $id,'role_id'=>2)
                 ))->first();
         if (!empty($data)) {
             return $data->toArray();
@@ -58,7 +58,7 @@ class CommonHelper extends Helper {
         $data = array();
         $proTable = TableRegistry::get('users');
         $data = $proTable->find('all', array(
-                    'conditions' => array('id' => $id)
+                    'conditions' => array('id' => $id,'role_id'=>3)
                 ))->first();
         if (!empty($data)) {
             return $data->toArray();

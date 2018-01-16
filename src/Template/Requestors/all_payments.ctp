@@ -38,7 +38,7 @@
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'value'=>$name_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
                             <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->               
-                            <span class="help-block pull-left spn100">By name </span>
+                            <span class="help-block pull-left spn100 label-search">By name </span>
                         </div>
                          
                         <div class="col-md-2">                
@@ -50,7 +50,7 @@
                                 <!--<input type="text" class="form-control pull-right" id="datepicker">-->
 
                             </div>
-                            <span class="help-block">Search by date</span>
+                            <span class="help-block label-search">Search by date</span>
                         </div>
                         <div class="col-md-2">                
                             <div class="input-group date">
@@ -61,7 +61,7 @@
                                 <!--<input type="text" class="form-control pull-right" id="datepicker">-->
 
                             </div>
-                            <span class="help-block">Search by end date</span>
+                            <span class="help-block label-search">Search by end date</span>
                         </div>
                         <div class="col-md-2">  
                             <?php 

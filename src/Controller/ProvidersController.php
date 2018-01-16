@@ -46,12 +46,12 @@ class ProvidersController extends AppController {
         $userSession = $this->request->session()->read('LoginUser');
         $countryTable = TableRegistry::get('countries');
         $countryArr = $countryTable->listCountries();
-        foreach($countryArr as $country){
+        foreach ($countryArr as $country) {
             $countryList[$country['id']] = $country['name'];
         }
         $this->set('countryList', $countryList);
-         $stateTable = TableRegistry::get('states');
-        $stateList = $stateTable->listStateList($id=0);
+        $stateTable = TableRegistry::get('states');
+        $stateList = $stateTable->listStateList($id = 0);
         $this->set('stateList', $stateList);
         $Providers = $userTable->newEntity();
         if ($this->request->is('post')) {
@@ -462,10 +462,10 @@ class ProvidersController extends AppController {
             $request_status = $post_data['request_status'];
             $requestRow = $requestsTable->get($request_id);
             $requestRow->request_status = $request_status;
+             $requestData = $requestsTable->findRequestDataByID($request_id);
             if ($requestsTable->save($requestRow)) {
-                if($request_status == 9){
-                    $this->insertNotifications($requestRow['requestor_id'], $requestRow['provider_id'], 0, 0, $request_id, 9, 'Requestor Denied', 4);
-                    $this->insertNotifications($requestRow['requestor_id'], 1, 0, 0, $request_id, 9, 'Requestor Denied', 4);
+                if($request_status == 3 ){
+                     $this->insertNotifications($userSession['id'],$requestData['requestor_id'], 0, 0, $request_id, 3, 'Threshold exceed', 5);
                 }
                 $arrJson['status'] = 'success';
                 $arrJson['message'] = 'Status updated successfully';
@@ -599,7 +599,18 @@ class ProvidersController extends AppController {
                     $path = "documents/requestor/" . $requestor_id;
                     $folder_name = $request_id;
                     $multiple[] = array('folder_name' => 'thumb', 'height' => '160', 'width' => '140');
-
+                    //check if the requestor's folder exists
+                    $dir1 = WWW_ROOT . 'documents/requestor/' . $requestor_id;
+                     if (!is_dir($dir1)) {
+                        @mkdir($dir1);
+                    }
+                    @chmod($dir1, 0777);
+                    //check if the request folder exists
+                    $dir = WWW_ROOT . 'documents/requestor/' . $requestor_id.'/'.$request_id;
+                    if (!is_dir($dir)) {
+                        @mkdir($dir);
+                    }
+                    @chmod($dir, 0777);
                     $response = $this->Common->upload_image($file, $path, $folder_name, false, $multiple);
 
                     $is_image_error = $this->Common->is_image_error($response);
@@ -641,7 +652,6 @@ class ProvidersController extends AppController {
             $arrJson['files'] = json_encode($fileNames);
             $CardData = $paymentTable->getCardDataByReqID($request_id);
             $cardId = $CardData['transaction_id'];
-//            pr($CardData);
             $TransId = $this->stripeDirectCharge($cardId, $finalFees, $request_id);
             if (!empty($TransId)) {
                 $query = $paymentTable->query();
@@ -652,12 +662,12 @@ class ProvidersController extends AppController {
                         ->execute();
 
                 $updateRequest = $queryRequest->update()
-                        ->set(['payment_status' => 1, 'request_status' => 8, 'paid_to_admin' => 1])
+                        ->set(['payment_status' => 1, 'request_status' => 5, 'paid_to_admin' => 1])
                         ->where(['id' => $request_id])
                         ->execute();
                 //check reuqest_status is 6 to send notification to admin
-                $this->insertNotifications($userSession['id'],1,0,0,$request_id,8,'Insert Update',2);
-            
+                $this->insertNotifications($userSession['id'], 1, 0, 0, $request_id, 5, 'Insert Update', 2);
+
                 if ($updateRequest) {
                     $arrJson['status'] = 'success';
                 }
@@ -826,7 +836,7 @@ class ProvidersController extends AppController {
         $this->set('id_keyword', $id_keyword);
     }
 
-    public function insertNotifications($sender_id,$reciever_id,$status,$is_sent,$request_id,$request_status,$notification_type,$message_id) {
+    public function insertNotifications($sender_id, $reciever_id, $status, $is_sent, $request_id, $request_status, $notification_type, $message_id) {
         $notificationsTable = TableRegistry::get('notifications');
         $notifications = $notificationsTable->newEntity();
         $notifications->sender_id = $sender_id;
@@ -834,15 +844,16 @@ class ProvidersController extends AppController {
         $notifications->status = $status;
         $notifications->is_sent = $is_sent;
         $notifications->request_id = $request_id;
-        $notifications->request_status = $request_status ;
+        $notifications->request_status = $request_status;
         $notifications->notification_type = $notification_type;
         $notifications->message_id = $message_id;
         $resultNotification = $notificationsTable->save($notifications);
     }
 
     public function getStateNameFromId($stateID) {
-        
+
         $stateTable = TableRegistry::get('states');
         return $stateList = $stateTable->GetStateName($stateID);
-}
+    }
+
 }

@@ -90,25 +90,25 @@ if($controller == 'Requestors' && $action== 'requestsListing'){
 
             <!-- Optionally, you can add icons to the links -->
             <li class="<?php echo $activeAdmindashboard;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-tachometer"></i> Dashboard',['controller' => 'Admins', 'action' => 'dashboard', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-tachometer"></i> <span>Dashboard</span>',['controller' => 'Admins', 'action' => 'dashboard', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAdminrequestors;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-user-plus"></i> Requester Listing',['controller' => 'Admins', 'action' => 'requestors', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-user-plus"></i> <span>Requester Listing</span>',['controller' => 'Admins', 'action' => 'requestors', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAdminproviders;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-user-plus"></i> Provider Listing',['controller' => 'Admins', 'action' => 'providers', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-user-plus"></i> <span>Provider Listing</span>',['controller' => 'Admins', 'action' => 'providers', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAdminpayment;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-money"></i> Payments',['controller' => 'Admins', 'action' => 'paymentListings', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-money"></i> <span>Payments</span>',['controller' => 'Admins', 'action' => 'paymentListings', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAllRequests;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-link"></i> View All Requests ',['controller' => 'Admins', 'action' => 'requests', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-link"></i> <span>View All Requests</span> ',['controller' => 'Admins', 'action' => 'requests', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAllOpenReq;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-list-alt"></i> View All Open Requests ',['controller' => 'Admins', 'action' => 'allOpenRequests', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-list-alt"></i> <span>View All Open Requests</span> ',['controller' => 'Admins', 'action' => 'allOpenRequests', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeAdminpaymentSettings;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-list-alt"></i> Settings ',['controller' => 'Admins', 'action' => 'paymentSettings', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-list-alt"></i> <span>Settings</span> ',['controller' => 'Admins', 'action' => 'paymentSettings', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             
         </ul> 
@@ -119,22 +119,22 @@ if($controller == 'Requestors' && $action== 'requestsListing'){
 
             <!-- Optionally, you can add icons to the links -->
             <li class="<?php echo $activeprovidersDashboard;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-tachometer"></i> Dashboard',['controller' => 'Providers', 'action' => 'providersDashboard', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-tachometer"></i> <span>Dashboard</span>',['controller' => 'Providers', 'action' => 'providersDashboard', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             
             <li class="<?php echo $activeviewAllRequests;?>">
-                            <?php echo $this->Html->link(' <i class="fa fa-link"></i>View Requests',['controller' => 'Providers', 'action' => 'viewAllRequests', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link(' <i class="fa fa-link"></i><span>View Requests</span>',['controller' => 'Providers', 'action' => 'viewAllRequests', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeViewPayments;?>">
-                            <?php  echo $this->Html->link('<i class="fa fa-credit-card"></i> Payments ',['controller' => 'Providers', 'action' => 'allPayments', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php  echo $this->Html->link('<i class="fa fa-credit-card"></i> <span>Payments</span> ',['controller' => 'Providers', 'action' => 'allPayments', '_full' => true],['class'=>'','escape' => false]);?>
                 <!--<a href="#"><i class="fa fa-cogs"></i> <span>Settings</span></a>-->
             </li>
             <li class="<?php echo $activesettings;?>">
-                            <?php  echo $this->Html->link('<i class="fa fa-cogs"></i> Settings ',['controller' => 'Providers', 'action' => 'settings', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php  echo $this->Html->link('<i class="fa fa-cogs"></i> <span>Settings </span>',['controller' => 'Providers', 'action' => 'settings', '_full' => true],['class'=>'','escape' => false]);?>
                 <!--<a href="#"><i class="fa fa-cogs"></i> <span>Settings</span></a>-->
             </li>
             <li class="<?php echo $activeprovidersProfile;?>">
-              <?php echo $this->Html->link(' <i class="fa fa-user"></i> Profile',['controller' => 'Users', 'action' => 'companyProfile', '_full' => true],['class'=>'','escape' => false]);?>
+              <?php echo $this->Html->link(' <i class="fa fa-user"></i> <span>Profile</span>',['controller' => 'Users', 'action' => 'companyProfile', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
 
  <!--<li><a href="#"><i class="fa fa-link"></i> <span>Requests</span></a></li>-->
@@ -148,7 +148,7 @@ elseif($userSession['role_id']== 3){?>
 
             <!-- Optionally, you can add icons to the links -->
             <li class="<?php echo $activerequestorsDashboard;?>">
-                            <?php echo $this->Html->link('<i class="fa fa-tachometer"></i> Dashboard',['controller' => 'Requestors', 'action' => 'requestorsDashboard', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link('<i class="fa fa-tachometer"></i> <span>Dashboard</span>',['controller' => 'Requestors', 'action' => 'requestorsDashboard', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             
             <li class="treeview <?php echo $displayUL;?>">
@@ -160,24 +160,24 @@ elseif($userSession['role_id']== 3){?>
                 <ul class="treeview-menu" <?php echo $style; ?>>
                     <li class="<?php echo $activeselectProvider;?>">
                   <?php 
-                  echo $this->Html->link('<i class="fa fa-edit"></i>Create Requests ',['controller' => 'Requestors', 'action' => 'selectProvider', '_full' => true],['class'=>'','escape' => false]);?>
+                  echo $this->Html->link('<i class="fa fa-edit"></i><span>Create Requests </span>',['controller' => 'Requestors', 'action' => 'selectProvider', '_full' => true],['class'=>'','escape' => false]);?>
                     </li>
                     <li class="<?php echo $activerequestsListing;?>">
-                <?php echo $this->Html->link('<i class="fa fa-list-alt"></i>View All Requests ',['controller' => 'Requestors', 'action' => 'requestsListing', '_full' => true],['class'=>'','escape' => false]);?>
+                <?php echo $this->Html->link('<i class="fa fa-list-alt"></i><span>View All Requests</span> ',['controller' => 'Requestors', 'action' => 'requestsListing', '_full' => true],['class'=>'','escape' => false]);?>
                     </li>
                 </ul>
             </li>
 
             <li class="<?php echo $activeAllPayments;?>">
-                            <?php echo $this->Html->link('<i class="fa fa-credit-card"></i> Payments ',['controller' => 'Requestors', 'action' => 'allPayments', '_full' => true],['class'=>'','escape' => false]);?>
+                            <?php echo $this->Html->link('<i class="fa fa-credit-card"></i> <span>Payments</span> ',['controller' => 'Requestors', 'action' => 'allPayments', '_full' => true],['class'=>'','escape' => false]);?>
                 <!--<a href="#"><i class="fa fa-credit-card"></i> <span>Payments</span></a>-->
             </li>
             <li class="<?php echo $activeUsersetting;?>">
                             <?php
-                            echo $this->Html->link('<i class="fa fa-cogs"></i> Settings ',['controller' => 'Users', 'action' => 'setting', '_full' => true],['class'=>'','escape' => false]);?>
+                            echo $this->Html->link('<i class="fa fa-cogs"></i> <span>Settings</span>',['controller' => 'Users', 'action' => 'setting', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
             <li class="<?php echo $activeprovidersProfile;?>">
-              <?php echo $this->Html->link(' <i class="fa fa-user"></i> Profile',['controller' => 'Users', 'action' => 'companyProfile', '_full' => true],['class'=>'','escape' => false]);?>
+              <?php echo $this->Html->link(' <i class="fa fa-user"></i> <span>Profile</span>',['controller' => 'Users', 'action' => 'companyProfile', '_full' => true],['class'=>'','escape' => false]);?>
             </li>
         </ul> 
 <?php } ?>

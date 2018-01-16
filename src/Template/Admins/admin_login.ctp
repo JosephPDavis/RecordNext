@@ -36,7 +36,7 @@
    <?= $this->Form->end(); ?>
     <!-- /.social-auth-links -->
 
-    <!--<a href="#">Forgot Password ?</a><br>-->
+    <a href="/admins/adminForgetPassword">Forgot Password ?</a><br>
 <!--    <a href="register.html" class="text-center">Register a new membership</a>-->
 
   </div>

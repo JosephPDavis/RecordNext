@@ -62,7 +62,7 @@
         background-color: #ff0000;
     }
     .progress-bar{
-        width: 12.5%;
+        width: 18%;
     }
     .progress-bar-denied {
         background-color: #ff0000;
@@ -89,9 +89,9 @@
         line-height: 12px;
         position: initial;
         text-align: center;
-        width: 90px;
+        width:100px;
         margin-left: -33px;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .progress.proBar {
         margin-bottom: 60px;
@@ -175,7 +175,24 @@
     .request-fee-blk{
         display: none;
     }
-   
+    .reasonDiv{
+        display: none;
+    }
+    .response_span_success,#Records_span,#provider_response_span{
+        color : #337ab7;
+    }
+    .response_span_denied{
+        color : #ff0000;
+    }
+    .lead{
+     font-size: 16px;   
+    }
+    #ProFeesChangeDiv{
+        display: none;
+    }
+    .thresholdError{
+        display: none;
+    }
 </style>
 <section class="content-header">
     <h1>
@@ -195,7 +212,7 @@
     <div class="row">
         <div class="col-xs-12">
             <?php 
-                                if($data['request_status'] == '8' || $data['request_status'] == '6'){
+                                if($data['request_status'] == '5'){
                                     $blinkClass = 'blinkBrd';
                                 }else{
                                   $blinkClass = '';  
@@ -219,134 +236,43 @@
                                             <input type="hidden" id="request_id" name="request_id" value="<?php echo $data['id']; ?>">
                                             <input type="hidden" id="requestor_id" name="requestor_id" value="<?php echo $data['requestor_id']; ?>">
 
-                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted newDiv">
+                                            <div class="progress-bar progress_sucess" data-update="0" id="divSubmitted">
                                                 <a href="javascript:void(0);" data-update="0" class="progressUpdate" id="submitted">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/new_icon.png"/>
-                                                        <span class="proBarName">Submitted</span>    
+                                                        <span class="proBarName">New</span>    
                                                     </span>
                                                 </a>
                                             </div>
-                                            <div class="rotated-circle-outer">
-                                                <div class="curved-line" id="divDeniedLine"></div>
-                                                    <div class="progress-bar " data-update="2" id="divDenied">
-                                                        <a href="javascript:void(0);" data-update="2" class="progressUpdate" id="denied">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new upper-txt">Provider Denied</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            <div class="rotated-circle-outer">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar" data-update="11" id="divClosed">
-                                                            <a href="javascript:void(0);" data-update="11" class="progressUpdate closeRequest" id="closed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName upper-txt">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="progress-bar" data-update="1" id="divConfirmed">
-                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="confirmed">
+                                             
+                                            <div class="progress-bar" data-update="1" id="divprovider_response">
+                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="provider_response">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/confirmed_icon.png"/>
-                                                        <span class="proBarName">Provider<br/>Acknowledged</span>    
+                                                        <span class="proBarName">Provider Response</span>    
+                                                        <span id="provider_response_span"></span> 
                                                     </span>
                                                 </a>   
                                             </div>
-                                            
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                                <div class="curved-line curved-line-bottom" id="divNoRecFoundLine"></div>
-                                                    <div class="progress-bar " data-update="4" id="divNoRec">
-                                                        <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="NoRec">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new">No Record Found</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="12" id="divClosed">
-                                                            <a href="javascript:void(0);" data-update="12" class="progressUpdate closeRequest" id="closed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="progress-bar"  data-update="3" id="divRecFound">
-                                                <a href="javascript:void(0);" data-update="3" class="progressUpdate" id="recFound">
+                                             
+                                            <div class="progress-bar"  data-update="4" id="divinProgress">
+                                                <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="inProgress">
                                                     <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">Record Found</span>    
+                                                        <span class="proBarName">In progress</span>    
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar"  data-update="5" id="divInProgress">
-                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="inProgress">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">In Progress</span>    
+                                            <div class="progress-bar"  data-update="5" id="divRecords">
+                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="Records">
+                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
+                                                        <span class="proBarName">Results</span>   
+                                                        <span class="proBarName" id="Records_span"></span> 
                                                     </span> 
                                                 </a>  
                                             </div>
-                                            <div class="progress-bar " data-update="6" id="divDlAvailable">
-                                                <a href="javascript:void(0);" data-update="6" class="progressUpdate" id="dlAvailable">
-                                                    <span class="proBarIcon offBg  <?php echo $blinkClass;?>"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
-                                                        <span class="proBarName">Records Available<br/>for Download</span>    
-                                                    </span>  
-                                                </a>
-                                            </div>  
-                                            <div class="progress-bar " data-update="8" id="divPaid">
-                                                <a href="javascript:void(0);" data-update="8" class="progressUpdate" id="paid">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/Paid_icon.png"/>
-                                                        <span class="proBarName">Paid</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-                                            <div class="rotated-circle-outer-2">
-                                                <div class="curved-line" id="divReqDeniedLine"></div>
-                                                    <div class="progress-bar " data-update="9" id="divReqDenied">
-                                                        <a href="javascript:void(0);" data-update="9" class="progressUpdate" id="ReqDenied">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new upper-txt">Requestor Denied</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            <div class="rotated-circle-outer-2">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="13" id="divReqDeniedClosed">
-                                                            <a href="javascript:void(0);" data-update="13" class="progressUpdate closeRequest" id="ReqDeniedClosed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName upper-txt">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                                <div class="curved-line curved-line-bottom" id="divReqConfLine"></div>
-                                                    <div class="progress-bar " data-update="10" id="divReqConf">
-                                                        <a href="javascript:void(0);" data-update="10" class="progressUpdate" id="ReqConf">
-                                                            <span class="proBarIcon offBg circle-section-outer "><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                                <span class="proBarName circle-txt-new">Requestor Confirmed</span>    
-                                                            </span>   
-                                                        </a>
-                                                    </div>
-                                            </div>
-                                            <div class="rotated-circle-outer rotated-circle-outer-bottom-2">
-                                             <div class="curved-line straight-line"></div>
-                                                    <div class="progress-bar " data-update="14" id="divReqConfClosed">
-                                                            <a href="javascript:void(0);" data-update="14" class="progressUpdate closeRequest" id="ReqConfClosed">
-                                                                <span class="proBarIcon offBg upper-circle"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                                    <span class="proBarName">Closed</span>    
-                                                                </span> 
-                                                            </a> 
-                                                        </div>
-                                              </div>
-                                        </div>   
+                                        </div>      
                                     </div>
                                 </div>
                                 <input type="hidden" name="request_status" id="request_status" value="<?php echo $data['request_status']; ?>">
-                                
+                           
                                 <?php  
                                         $provider_data = $this->Common->getProviderData($data['provider_id']);
                                         if(!empty($data['matter_id']) && isset($data['matter_id'])){
@@ -426,107 +352,12 @@
                                 </div> 
                                <?php  }?>
                                 <?php
-                                switch ($data['request_status']) {
-                                    case "4":
-                                        $requestStatusText = "Deny";
-                                        break;
-                                    
-                                    case "6":
-                                        $requestStatusText = "Cancel";
-                                        break;
-
-                                    default:
-                                        $requestStatusText = '';
-                                        break;
-                                }
                                 
-                                if($requestStatusText != ''){
+                                if($data['request_status'] == 2){
                                 ?>                                
-                                <div class="row"><label class="col-md-2 col-xs-4">Reason to <?php echo $requestStatusText; ?>:</label> <div class="col-md-10 col-xs-8"> <?php echo $data['reason'];  ?></div></div>
-                                <?php }  
-                                
-                                if($data['requestor_deny_reason'] != ''){
-                                ?>                                
-                                <div class="row"><label class="col-md-2 col-xs-4">Requestor's reason to deny:</label> <div class="col-md-10 col-xs-8" style="color : #ff0000"> <?php echo $data['requestor_deny_reason'];  ?></div></div>
-                                <?php } ?>
-                                <?php /* ?>
-                                <div class="row" style="margin-top: 15px;">
-                                    <label class="col-md-2 col-xs-2"> Request Status:</label>
-                                    <div class="col-md-10 col-xs-10" style="margin-top: 7px;"> 
-                                        <div class="progress proBar">
-                                            <input type="hidden" id="request_id" name="request_id" value="<?php echo $data['id'];?>">
-                                            <input type="hidden" id="requestor_id" name="requestor_id" value="<?php echo $data['requestor_id'];?>">
-
-                                            <div class="progress-bar" data-update="0" id="divSubmitted">
-                                                <a href="javascript:void(0);" data-update="0" class="progressUpdate" id="submitted">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/new_icon.png"/>
-                                                        <span class="proBarName">Submitted</span>    
-                                                    </span>
-                                                </a>
-                                            </div>
-                                            <div class="progress-bar" data-update="1" id="divConfirmed">
-                                                <a href="javascript:void(0);" data-update="1" class="progressUpdate" id="confirmed">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/confirmed_icon.png"/>
-                                                        <span class="proBarName">Provider<br/>Acknowledged</span>    
-                                                    </span>
-                                                </a>   
-                                            </div>
-                                            <div class="progress-bar " data-update="2" id="divDenied">
-                                                <a href="javascript:void(0);" data-update="2" class="progressUpdate" id="denied">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/denide_icon.png"/>
-                                                        <span class="proBarName">Provider Denied</span>    
-                                                    </span>   
-                                                </a>
-                                            </div>
-                                            <div class="progress-bar"  data-update="3" id="divInProgress">
-                                                <a href="javascript:void(0);" data-update="3" class="progressUpdate" id="inProgress">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/in_progress_icon.png"/>
-                                                        <span class="proBarName">In Progress</span>    
-                                                    </span> 
-                                                </a>  
-                                            </div>
-                                            <div class="progress-bar " data-update="4" id="divNoRec">
-                                                <a href="javascript:void(0);" data-update="4" class="progressUpdate" id="NoRec">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/cancelled_icon.png"/>
-                                                        <span class="proBarName">No Records<br/>Found</span>    
-                                                    </span>   
-                                                </a>
-                                            </div>
-                                            <!--                                                <div class="progress-bar " data-update="5" id="divCompleted">
-                                                                                                <a href="javascript:void(0);" data-update="5" class="progressUpdate" id="completed">
-                                                                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/records_uploaded_icon.png"/>
-                                                                                                        <span class="proBarName">Records Uploaded</span>    
-                                                                                                    </span>  
-                                                                                                </a>
-                                                                                            </div> -->
-                                            <div class="progress-bar " data-update="6" id="divPaid">
-                                                <a href="javascript:void(0);" data-update="6" class="progressUpdate" id="paid">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/Paid_icon.png"/>
-                                                        <span class="proBarName">Paid</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-                                            <div class="progress-bar " data-update="7" id="divDlAvailable">
-                                                <a href="javascript:void(0);" data-update="7" class="progressUpdate" id="dlAvailable">
-                                                    <span class="proBarIcon offBg  <?php echo $blinkClass;?>"><img src="<?php echo SITE_URL; ?>/img/records_download_icon.png"/>
-                                                        <span class="proBarName">Records Available<br/>for Download</span>    
-                                                    </span>  
-                                                </a>
-                                            </div> 
-
-                                            <div class="progress-bar " data-update="8" id="divClosed">
-                                                <a href="javascript:void(0);" data-update="8" class="progressUpdate closeRequest" id="closed">
-                                                    <span class="proBarIcon offBg"><img src="<?php echo SITE_URL; ?>/img/closed_icon.png"/>
-                                                        <span class="proBarName">Closed</span>    
-                                                    </span> 
-                                                </a> 
-                                            </div>
-
-                                        </div>   
-                                    </div>
-                                </div>
-                                <input type="hidden" name="request_status" id="request_status" value="<?php echo $data['request_status']; ?>">
-                                  <?php */ ?>
+                                <div class="row"><label class="col-md-2 col-xs-4">Reason to Deny:</label> <div class="col-md-10 col-xs-8"> <?php echo $data['reason'];  ?></div></div>
+                                <?php }  ?>
+                                 
                             </div>
 
                         </div>
@@ -544,149 +375,57 @@
     </div><!-- /.row -->
     <!-- Main row -->
 </section><!-- /.content -->
-<div class="modal fade" id="confirmDenyModel" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Add new file</h4>
-
-            </div>
-            <div class="modal-body" id="modal-body">
-                <form action ="#" method = "POST" enctype = "multipart/form-data" class = "form-horizontal" name="formData" id="data">
-                    <ul>
-                        <div class="alert alert-danger" style="display: none;" id="errDiv">
-                            <strong>Please</strong> select any one options
-                        </div>
-                        <div class = "form-group">
-                            <label class="control-label col-sm-1" for = "file">Please confirm that the documents provided by provider are correct.</label>    
-                            <div class="col-sm-9">
-                                <input type = "radio" name = "confirmDeny" id = "confirmDenyRad"  value="Confirm">
-                                <input type = "radio" name = "confirmDeny" id = "confirmDenyRad" value="Deny">
-                            </div>
-                        </div>
-
-                        <div class = "button">
-                            <div class="form-group">
-                                <div class="col-sm-offset-1 col-sm-6">
-                                    <input type="submit" name = "submit" class="btn btn-primary" value = "Submit" id="confirmDenyBtn">
-                                </div>
-                            </div>
-                        </div>
-
-                    </ul>
-                </form>
-                <br/>
-                <div class="progress" style="display:none;">
-                    <div class="progress-bar bg-success  progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div>
-                </div>
-                <div id = "result"></div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div id="denyModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+ 
+ <?php if($data['request_status'] == 3 ) {?>
+ <div id="ThreasHoldModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+            
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">You need to specify the reason why you are denying the request.</label>
-                    <textarea class="form-control" id="reason" rows="3"></textarea>
-                    <input type="hidden" id="dataUpdate" name="dataUpdate">
+                    <label for="exampleFormControlTextarea1">The Provider had quoted fees as <?php echo $data['total_cost'] ?>$ which results in threshold hike. Please confirm you are accepting it or not.</label>
                 </div>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="ThreasHoldIn" value="1">Accept
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="ThreasHoldIn" value="7">Deny
+                    </label> 
+                </div>
+                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveReason">Save changes</button>
+                <button type="button" class="btn btn-primary" id="ThreasHoldBtn">Save changes</button>
             </div>
         </div>
 
     </div>
 </div>
 <script>
+ $(window).on('load',function(){
+        $('#ThreasHoldModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        $('#ThreasHoldModal').modal('show');
+    });
+</script>
+ <?php } ?>
+<script>
     jQuery(document).ready(function () {
         var RS = jQuery("#request_status").val();
 
         updateProgressBar(RS);
-
-//        function updateProgressBar(RS) {
-//            RS = parseInt(RS);
-//            var items = jQuery(".progress-bar");
-//            jQuery(items).find("a").css('pointer-events', 'all');
-//
-//            jQuery.each(items, function (index, item) {
-//                if (RS >= jQuery(item).attr("data-update")) {
-//                    jQuery(item).addClass('progress-bar-success');
-//                    jQuery(item).find(".proBarIcon").removeClass('offBg');
-//                    jQuery(item).find(".proBarIcon").addClass('newBg');
-////                        jQuery(item).find(".proBarIcon").addClass('blinkBrd');
-//                    jQuery(item).find("a").css('pointer-events', 'none');
-//                }
-//            });
-//
-//            switch (RS) {
-//                case 0:
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    break;
-//
-//                case 1:
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    break;
-//
-//                case 2:
-//                    var items = jQuery(".progress-bar");
-//                    jQuery("#divDenied").removeClass('progress-bar-success').addClass('progress-bar-denied');
-//                    jQuery("#divConfirmed").removeClass('progress-bar-success').addClass('progress-bar-denied');
-//                    jQuery("#divDenied").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery("#divConfirmed").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    break;
-//
-//                case 3:
-//                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    break;
-//
-//                case 4:
-//                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    break;
-//
-//                case 6:
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    break;
-//
-//                case 7:
-//                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery(items).find("a:not('#closed')").css('pointer-events', 'none');
-//                    break;
-//                case 8:
-//                    jQuery(items).find("a").css('pointer-events', 'none');
-//                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-//                    break;
-//
-//                default:
-//                    alert('not found')
-//                    break;
-//            }
-//
-//
-//        }
-function updateProgressBar(RS) {
+ 
+ function updateProgressBar(RS) {
             RS = parseInt(RS);
             var items = jQuery(".progress-bar");
             jQuery(items).find("a").css('pointer-events', 'all');
 
             jQuery.each(items, function (index, item) {
+               
                 if (RS >= jQuery(item).attr("data-update")) {
                     jQuery(item).addClass('progress-bar-success');
                     jQuery(item).find(".proBarIcon").removeClass('offBg');
@@ -701,124 +440,65 @@ function updateProgressBar(RS) {
                     break;
                 case 1:
                     jQuery(items).find("a").css('pointer-events', 'none');
+                    jQuery("#provider_response_span").html('Accepted');
                     break;
                 case 2:
-                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divDenied").removeClass('progress-bar-success').addClass('progress-bar-denied');
-                    jQuery("#divDeniedLine").addClass('progress-bar-denied');
-                    jQuery("#divConfirmed").removeClass('progress-bar-success');
-                    jQuery("#divDenied").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
-                     jQuery("#divConfirmed").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
+                    jQuery("#provider_response_span").html('Denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
+
                     break;
                 case 3:
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    //window.location.reload();
+                    jQuery("#provider_response_span").html('Threashold limit exceed');   
                     break;
                 case 4:
+                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divRecFound").removeClass('progress-bar-success');
-                    jQuery("#divNoRecFoundLine").addClass('progress-bar-success');
-                    jQuery("#divRecFound").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
                     break;
+                    
                 case 5:
+                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#Records_span").html('Records Available'); 
                     break;
+                    
                 case 6:
+                    var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#Records_span").html('No Records Found'); 
                     break;
-
+                    
                 case 7:
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 8:
+                    jQuery("#provider_response_span").html('Requestor denied');    
+                    jQuery("#provider_response_span").addClass('response_span_denied');  
+                    jQuery("#divinProgress").removeClass('progress-bar-success');
+                    jQuery("#divinProgress").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#divRecords").removeClass('progress-bar-success');
+                    jQuery("#divRecords").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
+                    jQuery("#divprovider_response").removeClass('progress-bar-success').addClass('progress-bar-denied');
+                    jQuery("#divprovider_response").find(".proBarIcon").addClass('progress-bar-denied').removeClass('progress-bar-success').removeClass('newBg');
 
-                    jQuery(items).find("a:not('#ReqDenied'):not('#ReqConf')").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
                     break;
-                    
-                case 9:
 
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divReqDenied").find(".proBarIcon").addClass('progress-bar-denied').removeClass('newBg');
-                    jQuery("#divReqDeniedLine").addClass('progress-bar-denied');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 10:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 11:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 12:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                case 13:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-                    
-                case 14:
-
-                    jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#divNoRec").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    jQuery("#divDenied").find(".proBarIcon").removeClass('progress-bar-success').removeClass('newBg');
-                    break;
-               
                 default:
-                    alert('not found')
+                   jQuery(items).find("a").css('pointer-events', 'none');
                     break;
             }
-
-
         }
 
-        jQuery(document).on('click', ".progressUpdate", function () {
-            var update = jQuery(this).attr("data-update");
-            var request_id = jQuery("#request_id").val();
-             if (update == '7') {
-                
-                jQuery("#dlAvailable").find(".proBarIcon").removeClass('blinkBrd');
-                AjaxService(request_id, update);
-            }
-            if (update == '8') {
-                
-                jQuery("#dlAvailable").find(".proBarIcon").removeClass('blinkBrd');
-                AjaxService(request_id, update);
-            }
+        jQuery(document).on('click', "#ThreasHoldBtn", function () {
             
-            if (update == '9') {
-                $('#denyModal').modal('show');
-                $("#dataUpdate").val(update);
-                //AjaxService(request_id, update);
-            }
+            var update = $("input:radio[name=ThreasHoldIn]:checked").val();
+            var request_id = jQuery("#request_id").val();
+            AjaxService(request_id, update);
         });
 
         function AjaxService(request_id, update) {
+            $('#loddingImage').show();
             jQuery.ajax({
                 type: "POST",
                 data: {id: request_id, request_status: update},
@@ -828,6 +508,9 @@ function updateProgressBar(RS) {
                     if (json.status == 'success') {
                         updateProgressBar(update);
                         jQuery("#request_status").val(update);
+                        $('#loddingImage').hide();
+                        $('#ThreasHoldModal').modal('hide');
+                        
                     }
                 },
                 error: function () {
@@ -836,30 +519,6 @@ function updateProgressBar(RS) {
             });
         }
         
-        jQuery(document).on('click', "#saveReason", function () {
-            var update = jQuery("#dataUpdate").val();
-            var reason = jQuery("#reason").val();
-            var request_id = jQuery("#request_id").val();
-            jQuery.ajax({
-                type: "POST",
-                data: {id: request_id, request_status: update, reason: reason},
-                url: "/providers/saveRequestorDenyReason",
-                dataType: 'json',
-                success: function (json) {
-                    if (json.status == 'success') {
-                        AjaxService(request_id, update);
-                        updateProgressBar(update);
-                        jQuery("#request_status").val(update);
-                        $('#denyModal').modal('hide');
-                    }
-                },
-                error: function () {
-                    // $('.loading').hide();
-                }
-            });
-
-        });
-
     });
 
 
