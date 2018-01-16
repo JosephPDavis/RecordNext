@@ -458,46 +458,44 @@ class RequestorsController extends AppController {
         $this->set('data', $output);
     }
 
-    public function getStatusByID($request_id) {
-        switch ($request_id) {
-            case 0:
-                return 'Submitted';
-                break;
-
-            case 1:
-                return 'Provider Acknowledged';
-                break;
-
-            case 2:
-                return 'Provider Denied';
-                break;
-
-            case 3:
-                return 'In Progress';
-                break;
-
-            case 4:
-                return 'No Records Found';
-                break;
-
-            case 5:
-                return 'Records Uploaded';
-                break;
-
-            case 6:
-                return 'Records Uploaded';
-                break;
-
-            case 7:
-                return 'Records Available for Download';
-                break;
-            case 8:
-                return 'closed';
-                break;
-
-            default:
-                return 'NA';
-                break;
+   public function getStatusByID($request_id) {
+            switch ($request_id) {
+                    case 0:
+                        return 'Submitted';
+                        break;
+                    
+                    case 1:
+                        return 'Accepted';
+                        break;
+                    
+                    case 2:
+                    return 'Denied';
+                        break;
+                        
+                    case 3:
+                     return 'Threshold limit exceed';
+                        break;
+        
+                    case 4:
+                    return 'In progress';
+                        break;
+                    
+                    case 5:
+                    return 'Records Available';
+                        break;
+                    
+                    case 6:
+                    return 'No Records Found';
+                        break;
+                        
+                    case 7:
+                    return 'Requestor denied';
+                        break;
+                    
+                    default:
+                    return 'NA';
+                        break;
+                    
         }
     }
 

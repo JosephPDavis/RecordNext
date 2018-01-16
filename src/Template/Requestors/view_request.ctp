@@ -452,7 +452,7 @@
                     break;
                 case 3:
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#provider_response_span").html('Threashold limit exceed');   
+                    jQuery("#provider_response_span").html('Threshold limit exceed');   
                     break;
                 case 4:
                     var items = jQuery(".progress-bar");
@@ -462,7 +462,9 @@
                 case 5:
                     var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
-                    jQuery("#Records_span").html('Records Available'); 
+                    jQuery("#Records_span").html('Records Available');
+                    jQuery("#divRecords").addClass('progress-bar-success');
+                    jQuery("#divRecords").find(".proBarIcon").addClass('progress-bar-success').addClass('newBg');
                     break;
                     
                 case 6:

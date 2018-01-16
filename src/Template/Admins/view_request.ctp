@@ -414,6 +414,8 @@
                     var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
                     jQuery("#Records_span").html('Records Available'); 
+                    jQuery("#divRecords").addClass('progress-bar-success');
+                    jQuery("#divRecords").find(".proBarIcon").addClass('progress-bar-success').addClass('newBg');
                     break;
                     
                 case 6:

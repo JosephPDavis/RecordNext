@@ -191,57 +191,33 @@ class CommonHelper extends Helper {
                         break;
                     
                     case 1:
-                        return 'Provider Acknowledged';
+                        return 'Accepted';
                         break;
                     
                     case 2:
-                    return 'Provider Denied';
+                    return 'Denied';
                         break;
                         
                     case 3:
-                     return 'Record Found';
+                     return 'Threshold limit exceed';
                         break;
         
                     case 4:
-                    return 'No Records Found';
+                    return 'In progress';
                         break;
                     
                     case 5:
-                    return 'In Progress';
+                    return 'Records Available';
                         break;
                     
                     case 6:
-                    return 'Upload Records';
+                    return 'No Records Found';
                         break;
                         
-                    case 8:
-                    return 'Records Available for Download';
+                    case 7:
+                    return 'Requestor denied';
                         break;
                     
-                    case 9:
-                    return 'Requestor Denied';
-                        break;
-                    
-                    case 10:
-                    return 'Requestor Confirmed';
-                        break;
-                    
-                    case 11:
-                    return 'Closed';
-                        break;
-                    
-                    case 12:
-                    return 'Closed';
-                        break;
-                    
-                    case 13:
-                    return 'Closed';
-                        break;
-                    
-                    case 14:
-                    return 'Closed';
-                        break;
-
                     default:
                     return 'NA';
                         break;

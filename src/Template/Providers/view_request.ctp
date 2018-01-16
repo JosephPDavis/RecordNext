@@ -691,6 +691,9 @@
                     var items = jQuery(".progress-bar");
                     jQuery(items).find("a").css('pointer-events', 'none');
                     jQuery("#Records_span").html('Records Available'); 
+                    jQuery("#divRecords").addClass('progress-bar-success');
+                    jQuery("#divRecords").find(".proBarIcon").addClass('progress-bar-success').addClass('newBg');
+                    
                     break;
                     
                 case 6:
@@ -904,7 +907,7 @@
                         jQuery("#uploadModal").modal("hide");
                         jQuery("#Records_span").html('Records Available');    
                         jQuery("#Records_span").addClass('response_span_success'); 
-                        AjaxService(request_id, 8);
+                        AjaxService(request_id, 5);
                         bootbox.alert("The documents have been uploaded successfully for this request!",
                                 function () {
                                     //window.location.reload();
@@ -932,7 +935,7 @@
                     json = $.parseJSON(JSON.stringify(json));
                     if (json.status == 'success') {
                         jQuery("#request_status").val(update);
-                        //updateProgressBar(update);
+                        updateProgressBar(update);
                         //window.location.reload();
                     }
                 },
