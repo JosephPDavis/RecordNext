@@ -507,6 +507,32 @@
             });
         
         }
+        $('#country-id').on( 'change', function (e) {
+                var countryID = this.value; 
+                $.ajax({
+                type: "POST",
+                data: {countryID : countryID},
+                url: '/users/getStates',
+                //dataType: 'json',
+                success: function (json) {
+                    if (json != '') {
+                       json = JSON.parse(json); 
+                       $("#state").empty();
+                       var first = false;
+                       $.each(json, function (key, value) {
+                           $("#state").append('<option value='+key+'>'+value+'</option>');
+                        });
+
+                    } else {
+
+                    }
+                },
+                error: function (requestObject, error, errorThrown) {
+                    alert(error);
+                    alert(errorThrown);
+                }
+    });
+            });
 
     });
 
