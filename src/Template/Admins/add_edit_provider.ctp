@@ -46,11 +46,11 @@
                     <h3 class="box-title">Provider Details</h3>
                 </div>
                 <div class="col-md-12">
-<!--                    <div>
-                        <div class="col-md-2 pull-right" style="margin-top: 20px;">    
+                    <!--                    <div>
+                                            <div class="col-md-2 pull-right" style="margin-top: 20px;">    
                       <?php echo $this->Html->link('Change Password',['controller' => 'Users', 'action' => 'changePassword', '_full' => true],['class'=>'btn btn-info','escape' => false]);?>
-                        </div>
-                    </div>-->
+                                            </div>
+                                        </div>-->
                <?php //echo $this->Session->flash(); ?>
           <?=  $this->Form->create($user, array('class'=>'form-appointment ui-form', 'id' => 'providerRegistration', 'type' => 'file', 'novalidate' => true, 'name' => 'User')) ?>
           <?php echo $this->Form->input('id',array('label' => false,'div' => false,'value'=>$id, 'type'=>'hidden'));?>                           
@@ -88,7 +88,7 @@
                                         </div></div>
                                 </div>
                                 <?php if(!empty($userData)){?>
-                                
+
                             <?php    }else {?>
                                 <div class="form-group">
                                     <div class="row">
@@ -123,14 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <label for="" class="col-sm-3 required-label control-label">State</label>
-                                        <div class="col-sm-4">
-                                                            <?php echo $this->Form->input('state',array('label' => false,'div' => false, 'value'=>isset($userData['state'])?$userData['state']:'' , 'class' => 'form-control', 'type'=>'text','maxlength'=>20));?>  
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <label for="" class="col-sm-3 required-label control-label">Country </label>
@@ -138,6 +131,14 @@
                    <?php echo $this->Form->input('country_id',array('label' => false,'div' => false,'options'=>$countryList , 'class' => 'form-control', 'type'=>'select', 'empty'=>'please select country', 'value'=>isset($userData['country_id'])?$userData['country_id']:''));?>  
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="" class="col-sm-3 required-label control-label">State</label>
+
+                                        <div class="col-sm-4">
+                  <?php echo $this->Form->input('state',array('label' => false,'div' => false,'value'=>$userData['state'] ,'options'=>$stateList, 'class' => 'form-control', 'type'=>'select','maxlength'=>20));?>  
+                                        </div></div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -410,7 +411,7 @@
                 },
                 "password": {
                     required: true,
-                    minlength:8,
+                    minlength: 8,
                     password_strength: true
                 },
                 "confirm_password": {
@@ -454,16 +455,16 @@
                 },
                 "last_name": {
                     required: "Please enter last name."
-                }, 
-                "email":{
+                },
+                "email": {
                     required: "Please enter email.",
                     email: "Please enter valid email.",
                     remote: "Email already exist."
                 },
-                "password":{
-                    required:"Please enter password.",
-                    minlength:"Minimum length is 8 characters."
-                    
+                "password": {
+                    required: "Please enter password.",
+                    minlength: "Minimum length is 8 characters."
+
                 },
                 "confirm_password": {
                     required: "Please enter confirm password.",
@@ -490,7 +491,35 @@
             }
         });
 
+        $('#country-id').val('0').attr('selected', 'selected');
 
+        if($('#country-id') !='') {
+            var countryID = $('#country-id').val();
+            $.ajax({
+                type: "POST",
+                data: {countryID: countryID},
+                url: '/admins/getStates',
+                //dataType: 'json',
+                success: function (json) {
+                    if (json != '') {
+                        json = JSON.parse(json);
+                        $("#state").empty();
+                        var first = false;
+                        $.each(json, function (key, value) {
+                            $("#state").append('<option value=' + key + '>' + value + '</option>');
+                        });
+
+                    } else {
+
+                    }
+                },
+                error: function (requestObject, error, errorThrown) {
+                    alert(error);
+                    alert(errorThrown);
+                }
+            });
+        
+        }
 
     });
 

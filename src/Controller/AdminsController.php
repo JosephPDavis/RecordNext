@@ -103,43 +103,42 @@ class AdminsController extends AppController {
     }
 
     public function getStatusByID($request_id) {
-            switch ($request_id) {
-                    case 0:
-                        return 'Submitted';
-                        break;
-                    
-                    case 1:
-                        return 'Accepted';
-                        break;
-                    
-                    case 2:
-                    return 'Denied';
-                        break;
-                        
-                    case 3:
-                     return 'Threshold limit exceed';
-                        break;
-        
-                    case 4:
-                    return 'In progress';
-                        break;
-                    
-                    case 5:
-                    return 'Records Available';
-                        break;
-                    
-                    case 6:
-                    return 'No Records Found';
-                        break;
-                        
-                    case 7:
-                    return 'Requestor denied';
-                        break;
-                    
-                    default:
-                    return 'NA';
-                        break;
-                    
+        switch ($request_id) {
+            case 0:
+                return 'Submitted';
+                break;
+
+            case 1:
+                return 'Accepted';
+                break;
+
+            case 2:
+                return 'Denied';
+                break;
+
+            case 3:
+                return 'Threshold limit exceed';
+                break;
+
+            case 4:
+                return 'In progress';
+                break;
+
+            case 5:
+                return 'Records Available';
+                break;
+
+            case 6:
+                return 'No Records Found';
+                break;
+
+            case 7:
+                return 'Requestor denied';
+                break;
+
+            default:
+                return 'NA';
+                break;
         }
     }
 
@@ -293,7 +292,14 @@ class AdminsController extends AppController {
         $userTable = TableRegistry::get('users');
 
         $countryTable = TableRegistry::get('countries');
-        $countryList = $countryTable->listCountries();
+        $countryArr = $countryTable->listCountries();
+        foreach ($countryArr as $country) {
+            $countryList[$country['id']] = $country['name'];
+        }
+        $this->set('countryList', $countryList);
+        $stateArr = $this->getStates2($userData['country_id']);
+
+        $this->set('stateList', $stateArr);
         $userData = array();
         $userDataArr = array();
         if (!empty($id)) {
@@ -346,7 +352,14 @@ class AdminsController extends AppController {
         $userTable = TableRegistry::get('users');
 
         $countryTable = TableRegistry::get('countries');
-        $countryList = $countryTable->listCountries();
+        $countryArr = $countryTable->listCountries();
+        foreach ($countryArr as $country) {
+            $countryList[$country['id']] = $country['name'];
+        }
+        $this->set('countryList', $countryList);
+        $stateArr = $this->getStates2($userData['country_id']);
+
+        $this->set('stateList', $stateArr);
         $userData = array();
         $userDataArr = array();
         if (!empty($id)) {
@@ -383,6 +396,25 @@ class AdminsController extends AppController {
         $this->set('id', $id);
         $this->set('countryList', $countryList);
         $this->set('userData', $userData);
+    }
+
+     /* @author Sneha G    
+      @params countryId
+      @return list of states
+     */
+       public function getStates() {
+        if ($this->request->is('post')) {
+            $post_data = $this->request->getData();
+            $stateTable = TableRegistry::get('states');
+            $stateList = $stateTable->listStateList($post_data['countryID']);
+            echo json_encode($stateList); 
+            die();
+        }
+    }
+    
+    public function getStates2($country_id) {
+        $stateTable = TableRegistry::get('states');
+        return $stateList = $stateTable->listStateList($country_id);
     }
 
     /* @author Sneha G    
@@ -1039,26 +1071,26 @@ class AdminsController extends AppController {
         $this->viewBuilder()->setLayout('admin_layout');
         $userTable = TableRegistry::get('users');
         $userData = $userTable->findUserBytokenID($token);
-            
-        if (empty($userData['id'])){
+
+        if (empty($userData['id'])) {
             $this->Flash->error('This link has been expired.Please try again.', ['params' => ['class' => 'alert alert-danger']]);
             return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
         }
         if ($this->request->is('post')) {
-            
-                $userData = $userTable->findUserBytokenID($this->request->data['token']);
-                $user = $userTable->get($userData['id']);
-                $user->reset_password_flag = 0;
-                $user = $userTable->patchEntity($user, $this->request->data);
-                if ($userTable->save($user)) {
-                    $this->Flash->success('Password has been updated successfully.', ['params' => ['class' => 'alert alert-success']]);
-                    return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
-                } else {
-                    $this->Flash->error('Entered old password does not match.Please try again.', ['params' => ['class' => 'alert alert-danger']]);
-                }
+
+            $userData = $userTable->findUserBytokenID($this->request->data['token']);
+            $user = $userTable->get($userData['id']);
+            $user->reset_password_flag = 0;
+            $user = $userTable->patchEntity($user, $this->request->data);
+            if ($userTable->save($user)) {
+                $this->Flash->success('Password has been updated successfully.', ['params' => ['class' => 'alert alert-success']]);
+                return $this->redirect(['controller' => 'Admins', 'action' => 'adminLogin']);
+            } else {
+                $this->Flash->error('Entered old password does not match.Please try again.', ['params' => ['class' => 'alert alert-danger']]);
             }
+        }
         $this->set(compact('user'));
-        $this->set('token', $token);   
+        $this->set('token', $token);
         $this->set('_serialize', ['user']);
     }
 

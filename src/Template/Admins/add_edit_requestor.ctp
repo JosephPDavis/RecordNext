@@ -46,15 +46,15 @@
                     <h3 class="box-title">Requester Details</h3>
                 </div>
                 <div class="col-md-12">
-<!--                    <div>
-                        <div class="col-md-2 pull-right" style="margin-top: 20px;">    
+                    <!--                    <div>
+                                            <div class="col-md-2 pull-right" style="margin-top: 20px;">    
                       <?php echo $this->Html->link('Change Password',['controller' => 'Users', 'action' => 'changePassword', '_full' => true],['class'=>'btn btn-info','escape' => false]);?>
-                        </div>
-                    </div>-->
+                                            </div>
+                                        </div>-->
                <?php //echo $this->Session->flash(); ?>
           <?=  $this->Form->create($user, array('class'=>'form-appointment ui-form', 'id' => 'requestorRegistration', 'type' => 'file', 'novalidate' => true, 'name' => 'User')) ?>
           <?php echo $this->Form->input('id',array('label' => false,'div' => false,'value'=>$id, 'type'=>'hidden'));?>                           
-          <div class="nav-tabs-custom">
+                    <div class="nav-tabs-custom">
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1">
                                 <div class="form-group">
@@ -127,21 +127,23 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label for="" class="col-sm-3 required-label control-label">State</label>
-
-                                        <div class="col-sm-4">
-                  <?php echo $this->Form->input('state',array('label' => false,'div' => false, 'value'=>isset($userData['state'])?$userData['state']:'' , 'class' => 'form-control', 'type'=>'text','maxlength'=>20));?>  
-                                        </div></div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
                                         <label for="" class="col-sm-3 required-label control-label">Country </label>
 
                                         <div class="col-sm-4">
                    <?php 
-                   echo $this->Form->input('country_id',array('label' => false,'div' => false,'options'=>$countryList , 'class' => 'form-control', 'type'=>'select', 'empty'=>'please select country', 'value'=>isset($userData['country_id'])?$userData['country_id']:''));?>  
+                   echo $this->Form->input('country_id',array('label' => false,'div' => false,'options'=>$countryList , 'class' => 'form-control', 'type'=>'select', 'empty'=>'please select country','value'=>$userData['country_id']));?>  
                                         </div></div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="" class="col-sm-3 required-label control-label">State</label>
+
+                                        <div class="col-sm-4">
+                  <?php echo $this->Form->input('state',array('label' => false,'div' => false,'value'=>$userData['state'] ,'options'=>$stateList, 'class' => 'form-control', 'type'=>'select','maxlength'=>20));?>  
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <label for="" class="col-sm-3 required-label control-label">Zip Code </label>
@@ -158,14 +160,14 @@
                     <?php echo $this->Form->input('phone',array('label' => false,'div' => false, 'value'=>isset($userData['phone'])?$userData['phone']:'','class' => 'form-control', 'type'=>'text','maxlength'=>15));?>  
                                         </div></div>
                                 </div>
-                                 <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">Select requester type </label>
-                
-                                  <div class="col-sm-4">
-                    <?php $typeArr =[1=>'Lawyer',2=>'Insurance'];
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="" class="col-sm-3 control-label">Select requester type </label>
+
+                                        <div class="col-sm-4">
+                    <?php $typeArr =[1=>'Lawyer',2=>'Insurance Company'];
                     echo $this->Form->input('type',array('label' => false,'type'=>'select','options'=>$typeArr,'empty'=>'Select requestor type','div' => false, 'class' => 'form-control','value'=>isset($userData['type'])?$userData['type']:''));?>  
-                                  </div></div>
+                                        </div></div>
                                 </div>   
                                 <hr>  
                                 <div class="box-header with-border">
@@ -185,31 +187,31 @@
 
               <?php // if($roleId == 2){?>
 
-<!--                                <div class="form-group">
-                                    <div class="row">
-                                        <label for="" class="col-sm-3 control-label">Department</label>
-                                        <div class="col-sm-4">
+                                <!--                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <label for="" class="col-sm-3 control-label">Department</label>
+                                                                        <div class="col-sm-4">
                    <?php //$deptArr=array('Department 1','Department 2','Department 3','Department 4','Department 5');
 //                   echo $this->Form->hidden('hidden_department',array('value'=>(isset($userData['department'])&& isset($userData['department']))?$userData['department']:'','id'=>'hiddenDepartment'));
 //                  echo $this->Form->input('department',array('label' => false,'div' => false,'value'=>$userData['department'] ,'options'=>array(), 'class' => 'form-control','department'));?> 
-                                            <section id="stateloader" class="loader_img_state" style="display:none;"><?php echo $this->Html->image('ajax-loader.gif'); ?></section>
-
-                                            <div class="clearfix"></div>  
-                                             
-                                             <select class="form-control">
-                                              <option>Department 1</option>
-                                              <option>Department 2</option>
-                                              <option>Department 3</option>
-                                              <option>Department 4</option>
-                                              <option>Department 5</option>
-                                            </select> 
-                                        </div>
-
-                                        <a href="javascript:void(0)" class="addDepartment"  data-toggle="modal" data-target="#deptModal"><i class="fa fa-plus-circle" ></i></a>
-                                    </div>
-
-
-                                </div>-->
+                                                                            <section id="stateloader" class="loader_img_state" style="display:none;"><?php echo $this->Html->image('ajax-loader.gif'); ?></section>
+                                
+                                                                            <div class="clearfix"></div>  
+                                                                             
+                                                                             <select class="form-control">
+                                                                              <option>Department 1</option>
+                                                                              <option>Department 2</option>
+                                                                              <option>Department 3</option>
+                                                                              <option>Department 4</option>
+                                                                              <option>Department 5</option>
+                                                                            </select> 
+                                                                        </div>
+                                
+                                                                        <a href="javascript:void(0)" class="addDepartment"  data-toggle="modal" data-target="#deptModal"><i class="fa fa-plus-circle" ></i></a>
+                                                                    </div>
+                                
+                                
+                                                                </div>-->
                 <?php //  }?>
                                 <div class="form-group">
                                     <div class="row">
@@ -228,15 +230,15 @@
                                 </div>
                             </div>
                             <!-- /.tab-pane -->
-<!--                            <div class="tab-pane" id="tab_2">
-
-                                <div class="box-footer">
-
-                                    <button type="submit" class="btn btn-default">Cancel</button>
+                            <!--                            <div class="tab-pane" id="tab_2">
+                            
+                                                            <div class="box-footer">
+                            
+                                                                <button type="submit" class="btn btn-default">Cancel</button>
                 <?php echo $this->Form->button('Update', array('div' => false, 'class'=>'btn primary-btn')); ?>
-                                </div>
-
-                            </div>-->
+                                                            </div>
+                            
+                                                        </div>-->
                             <!-- /.tab-pane -->
 
                         </div>
@@ -249,43 +251,43 @@
 
                     <!--BOF- Modal Department-->
 
-<!--                    <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                    <!--                    <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
     <?= $this->Form->create(isset($department)?$department:'', array('class'=>'form-appointment ui-form', 'id' => 'addDepartmentForm','novalidate'=>true, 'type' => 'file')) ?>
-                              <form id="addDepartment" action="javascript:void(0)"> 
-                            <div class="modal-content">
-                                 Modal Header 
-                                <div class="modal-header"><strong>Add Department</strong>
-                                    <button type="button" class="close" 
-                                            data-dismiss="modal">
-                                        <span aria-hidden="true">&times;</span>
-                                        <span class="sr-only">Close</span>
-                                    </button>
-                                </div>            
-                                <div class="modal-body">
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label for="" class="col-sm-3 control-label">Department Name  </label>
-
-                                            <div class="col-sm-4">
+                                                  <form id="addDepartment" action="javascript:void(0)"> 
+                                                <div class="modal-content">
+                                                     Modal Header 
+                                                    <div class="modal-header"><strong>Add Department</strong>
+                                                        <button type="button" class="close" 
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            <span class="sr-only">Close</span>
+                                                        </button>
+                                                    </div>            
+                                                    <div class="modal-body">
+                    
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label for="" class="col-sm-3 control-label">Department Name  </label>
+                    
+                                                                <div class="col-sm-4">
                                     <?php
                     echo $this->Form->input('name', array('type' => 'text', 'label' => false, 'id' => 'dept_name', 'div' => false, 'class' => 'form-control','placeholder'=>"Enter department name"));
                 ?>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="col-lg-12">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                    
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="col-lg-12">
                     <?php echo $this->Form->button('Save', array('div' => false, 'class'=>'btn primary-btn', 'id'=>'saveDept')); ?>
-                                    </div>
-                                </div>
-                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
         <?php echo $this->Form->end(); ?>
-                        </div>
-                    </div>-->
+                                            </div>
+                                        </div>-->
                     <!--EOF- Modal Department-->
                     <div class="clearfix"></div>
                 </div>  <div class="clearfix"></div>
@@ -396,7 +398,7 @@
                 },
                 "password": {
                     required: true,
-                    minlength:8,
+                    minlength: 8,
                     password_strength: true
                 },
                 "confirm_password": {
@@ -440,16 +442,16 @@
                 },
                 "last_name": {
                     required: "Please enter last name."
-                }, 
-                "email":{
+                },
+                "email": {
                     required: "Please enter email.",
                     email: "Please enter valid email.",
                     remote: "Email already exist."
                 },
-                "password":{
-                    required:"Please enter password.",
-                    minlength:"Minimum length is 8 characters."
-                    
+                "password": {
+                    required: "Please enter password.",
+                    minlength: "Minimum length is 8 characters."
+
                 },
                 "confirm_password": {
                     required: "Please enter confirm password.",
@@ -476,7 +478,35 @@
             }
         });
 
+        $('#country-id').val('0').attr('selected', 'selected');
 
+        if($('#country-id') !='') {
+            var countryID = $('#country-id').val();
+            $.ajax({
+                type: "POST",
+                data: {countryID: countryID},
+                url: '/admins/getStates',
+                //dataType: 'json',
+                success: function (json) {
+                    if (json != '') {
+                        json = JSON.parse(json);
+                        $("#state").empty();
+                        var first = false;
+                        $.each(json, function (key, value) {
+                            $("#state").append('<option value=' + key + '>' + value + '</option>');
+                        });
+
+                    } else {
+
+                    }
+                },
+                error: function (requestObject, error, errorThrown) {
+                    alert(error);
+                    alert(errorThrown);
+                }
+            });
+        
+        }
 
     });
 

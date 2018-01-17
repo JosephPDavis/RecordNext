@@ -196,72 +196,7 @@ $roleId=$this->request->session()->read('LoginUser')['role_id'];
 
                                 </div>
                 <?php  }?>
-                                <!--  <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3  control-label">Upload Logo</label>
-                
-                                  <div class="col-sm-4">
-                                    <input type="file"> 
-                                  </div></div>
-                                </div>
-                                <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">State Address  </label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                
-                                 <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">City</label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                  <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">State</label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                  <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">Country </label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                  <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">Zip Code </label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                    <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">Phone No </label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>
-                                   <div class="form-group">
-                                 <div class="row">
-                                  <label for="" class="col-sm-3 control-label">Fax No </label>
-                
-                                  <div class="col-sm-4">
-                                    <input class="form-control" id="" placeholder="" type="">
-                                  </div></div>
-                                </div>  
-                                -->
+                               
                                 <div class="form-group">
                                     <div class="row">
                                         <label for="" class="col-sm-3 control-label">About Company </label>
