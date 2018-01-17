@@ -63,11 +63,11 @@ class NotificationsController extends AppController {
                 $notificationDom .= $message;
                 $notificationDom .= '</a></li>';
                 //update is_sent status of the records
-//                $query = $notificationsTable->query();
-//                $update = $query->update()
-//                        ->set(['is_sent' => 1])
-//                        ->where(['id' => $val['id']])
-//                        ->execute();
+                $query = $notificationsTable->query();
+                $update = $query->update()
+                        ->set(['is_sent' => 1])
+                        ->where(['id' => $val['id']])
+                        ->execute();
             }
             $arrResponse['status'] = 'success';
             $arrResponse['count'] = count($notificationData);

@@ -153,7 +153,7 @@ $userSession = $this->request->session()->read('LoginUser');
 
             load_unseen_notification();
 
-        }, 120000);
+        }, 30000);
 
     });
 
@@ -185,6 +185,7 @@ $userSession = $this->request->session()->read('LoginUser');
                     $('#showNotification').hide();
                     $('#NoNotification').show();
                     $('.notification-list').remove();
+                    $('.count').html('');
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
