@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 class AppController extends Controller {
 
@@ -21,9 +22,9 @@ class AppController extends Controller {
         $this->Auth->allow('getMatterData');
         $this->Auth->allow('adminForgetPassword');
         $this->Auth->allow('adminResetPassword');
-        $this->checkUserSession();
-        $this->checkAuthentication();
-        
+       // $this->checkUserSession();
+        //$this->checkAuthentication();
+       
     }
 
     public function initialize() {
@@ -55,6 +56,8 @@ class AppController extends Controller {
             'storage' => 'Session'
         ]);
         $this->loadComponent('Common');
+        $uid = $this->Auth->User('id');
+        $this->checkUserSession($uid);
     }
 
 //    public function isAuthorized($user)
@@ -77,22 +80,24 @@ class AppController extends Controller {
         }
     }
 
-    public function checkUserSession() {
-        $action = $this->request->params['action'];
-        $controller = $this->request->params['controller'];
-        $allowActions = array('login', 'forgotPassword', 'resetPassword', 'providerRegistration', 'requestorRegistration', 'home', 'logout');
-        $userSession = '';
-        $userSession = $this->request->session()->read('LoginUser');
-        if (in_array($action, $allowActions)) {
-            if (!empty($userSession['id'])) {
-                if ($userSession['role_id'] == 2) {
+    public function checkUserSession($id) {
+        $users = TableRegistry::get('users');
+        $userData = $users->findUserByID($id);
+            if (!empty($userData['id'])) {
+             
+                if ($userData['role_id'] == 2 && $this->request->controller != 'Providers' ) {
                     $this->redirect(array('controller' => 'providers', 'action' => 'providersDashboard'));
                 }
-                if ($userSession['role_id'] == 3) {
+                if ($userData['role_id'] == 3 && $this->request->controller != 'Requestors' ) {
                     $this->redirect(array('controller' => 'requestors', 'action' => 'requestorsDashboard'));
+                     
                 }
-            }
-        }
+                if ($userData['role_id'] == 1 && $this->request->controller != 'Admins' ) {
+                    $this->redirect(array('controller' => 'Admins', 'action' => 'dashboard'));
+                     
+                }
+            } 
+        
     }
 /* @author Sneha G    
       @params name

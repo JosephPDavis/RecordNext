@@ -27,7 +27,7 @@ class ProvidersController extends AppController {
         $action = $this->request->action;
         $controller = $this->request->controller;
 
-        $this->checkUserSession();
+        //$this->checkUserSession();
 //        pr($userSession); exit('in prov bf'); 
 //        if($userSession['role_id'] != 2){
 //            $this->Flash->error("You'are not authorize to access this page!", ['params' => ['class' => 'alert alert-danger']]);

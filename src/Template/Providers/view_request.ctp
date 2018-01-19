@@ -358,6 +358,13 @@
                             </div>
                         </div>
                     </div><!-- /.box-body -->
+                    <div class="col-md-2 pull-right">                
+                        <!--<button type="submit" class="btn btn-info "> Process Request</button>-->              
+                    </div>
+                    <div class="col-md-2 pull-left">
+                        <?php echo $this->Html->link('Back',['controller' => 'Providers', 'action' => 'viewAllRequests', '_full' => true],['class'=>'btn btn-info']);?>
+                        <!--<button type="submit" class="btn btn-info "> Cancel Request</button>-->              
+                    </div>
                 </div>
             </div><!-- ./col -->
         </div><!-- /.row -->

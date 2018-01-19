@@ -50,7 +50,7 @@
             <!-- small box -->
                            <?php echo $this->Html->link('<div class="small-box bg-gray">
                             <div class="inner">
-                                <h3>View All<br>Requestors</h3>          
+                                <h3>View All<br>Providers</h3>          
                             </div>
                             <div class="icon">
                                 <i class="fa fa-user" aria-hidden="true"></i>

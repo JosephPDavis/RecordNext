@@ -92,7 +92,7 @@ class AdminsController extends AppController {
                 $requestorName = $requestorData['first_name'] . ' ' . $requestorData['last_name'];
                 $providerName = $providerData['first_name'] . ' ' . $providerData['last_name'];
                 $status = $this->getStatusByID($notice['request_status']);
-                $link = SITE_URL . 'providers/view-request/' . $userTable->encrypt($notice['id']);
+                $link = SITE_URL . 'admins/view-request/' . $userTable->encrypt($notice['id']);
 
                 array_push($output, "<div class='warningInfo'>$index. The request status is " . $status . " for request ID <a href='" . $link . "'>#" . $notice['request_id'] . "</a> </div>");
 
