@@ -22,7 +22,9 @@ class AppController extends Controller {
         $this->Auth->allow('getMatterData');
         $this->Auth->allow('adminForgetPassword');
         $this->Auth->allow('adminResetPassword');
-       // $this->checkUserSession();
+        $this->Auth->allow('requestNotification');
+        $this->Auth->allow('readNotification');
+//        $this->checkUserSession();
         //$this->checkAuthentication();
        
     }
@@ -57,6 +59,9 @@ class AppController extends Controller {
         ]);
         $this->loadComponent('Common');
         $uid = $this->Auth->User('id');
+//        if(empty($uid)){
+//            
+//        }
         $this->checkUserSession($uid);
     }
 
@@ -80,23 +85,25 @@ class AppController extends Controller {
         }
     }
 
-    public function checkUserSession($id) {
+    public function checkUserSession($id = null) {
         $users = TableRegistry::get('users');
         $userData = $users->findUserByID($id);
+        $ProviderArr = array('Notifications','Users','Providers'); 
+        $RequestorArr = array('Notifications','Users','Requestors'); 
+        $AdminsArr = array('Notifications','Users','Admins'); 
+        
             if (!empty($userData['id'])) {
-             
-                if ($userData['role_id'] == 2 && $this->request->controller != 'Providers' ) {
-                    $this->redirect(array('controller' => 'providers', 'action' => 'providersDashboard'));
+                
+                if ($userData['role_id'] == 2 && !in_array($this->request->controller, $ProviderArr)) {
+                  return $this->redirect(array('controller' => 'Providers', 'action' => 'providersDashboard'));
                 }
-                if ($userData['role_id'] == 3 && $this->request->controller != 'Requestors' ) {
-                    $this->redirect(array('controller' => 'requestors', 'action' => 'requestorsDashboard'));
-                     
+                if ($userData['role_id'] == 3 && !in_array($this->request->controller, $RequestorArr)) {
+                   return $this->redirect(array('controller' => 'Requestors', 'action' => 'requestorsDashboard'));
                 }
-                if ($userData['role_id'] == 1 && $this->request->controller != 'Admins' ) {
-                    $this->redirect(array('controller' => 'Admins', 'action' => 'dashboard'));
-                     
+                if ($userData['role_id'] == 1 && !in_array($this->request->controller, $AdminsArr)) {
+                   return $this->redirect(array('controller' => 'Admins', 'action' => 'dashboard'));
                 }
-            } 
+            }
         
     }
 /* @author Sneha G    

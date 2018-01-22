@@ -26,11 +26,12 @@ class NotificationsController extends AppController {
         $userSession = $this->request->session()->read('LoginUser');
         $action = $this->request->action;
         $controller = $this->request->controller;
-        $this->checkUserSession();
+//        $this->checkUserSession();
     }
 
     public function requestNotification($param = null) {
         $userSession = $this->request->session()->read('LoginUser');
+//        pr($userSession);
         $notificationsTable = TableRegistry::get('notifications');
         $usersTable = TableRegistry::get('users');
         $requestTable = TableRegistry::get('requests');
@@ -45,8 +46,8 @@ class NotificationsController extends AppController {
                 $requestData = $requestTable->findRequestDataByID($val['request_id']);
                 //make array of requests id
                 array_push($savedRequestIds, $val['id']);
-                $pro = new ProvidersController();
-                $request_status = $pro->getStatusByID($val['request_status']);
+//                $pro = new ProvidersController();
+                $request_status = $this->getStatusByID($val['request_status']);
                 $haystack = array('{REQUEST_ID}', '{REQUEST_STATUS}');
                 $replace = array($requestData['request_id'], $request_status);
                 $message = str_replace($haystack, $replace, $val['Message']['message']);
@@ -116,6 +117,47 @@ class NotificationsController extends AppController {
 
             echo json_encode($arrResponse);
             exit();
+        }
+    }
+    
+     public function getStatusByID($request_id) {
+            switch ($request_id) {
+                    case 0:
+                        return 'Submitted';
+                        break;
+                    
+                    case 1:
+                        return 'Accepted';
+                        break;
+                    
+                    case 2:
+                    return 'Denied';
+                        break;
+                        
+                    case 3:
+                     return 'Threshold limit exceed';
+                        break;
+        
+                    case 4:
+                    return 'In progress';
+                        break;
+                    
+                    case 5:
+                    return 'Records Available';
+                        break;
+                    
+                    case 6:
+                    return 'No Records Found';
+                        break;
+                        
+                    case 7:
+                    return 'Requestor denied';
+                        break;
+                    
+                    default:
+                    return 'NA';
+                        break;
+                    
         }
     }
 

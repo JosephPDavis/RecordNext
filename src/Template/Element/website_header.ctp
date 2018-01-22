@@ -190,7 +190,7 @@ $userSession = $this->request->session()->read('LoginUser');
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 if (XMLHttpRequest.readyState == 4) {
-                    aler('in error');
+                    alert('in error');
                     // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
                     alert(textStatus);
                     return false;
