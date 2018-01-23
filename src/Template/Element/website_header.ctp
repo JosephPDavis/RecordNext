@@ -177,9 +177,10 @@ $userSession = $this->request->session()->read('LoginUser');
                     $('.notifyCount').html(count);
                     $('.notifications-custom').attr('data-reqattr', request_ids);
                     //append html of notifications
+//                    alert(response);
                     $('.notification-list').each(function () {
                         //this wrapped in jQuery will give us the current .notification-list ul
-                        $(this).append(response);
+                        $('.notification-list').append(response);
                     });
                 } else {
                     $('#showNotification').hide();

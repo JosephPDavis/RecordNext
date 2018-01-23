@@ -178,7 +178,7 @@ class AdminsController extends AppController {
                 $conditions += array('requests.date_of_request >=' => date('Y-m-d', strtotime($start_date)));
             }
             if (isset($end_date) && $end_date != '') {
-                $conditions += array('requests.date_of_request <=' => date('Y-m-d', strtotime($end_date)));
+                $conditions += array('date(requests.date_of_request) <=' => date('Y-m-d', strtotime($end_date)));
             }
         }
         $this->paginate = [
@@ -998,11 +998,11 @@ class AdminsController extends AppController {
                 $conditions += array('requests.date_of_request >=' => date('Y-m-d', strtotime($start_date)));
             }
             if (isset($end_date) && $end_date != '') {
-                $conditions += array('requests.date_of_request <=' => date('Y-m-d', strtotime($end_date)));
+                $conditions += array('date(requests.date_of_request) <=' => date('Y-m-d', strtotime($end_date)));
             }
         }
-
-
+        
+    
         $this->paginate = [
             'contain' => ['Provider', 'Clients', 'Matters'],
             'maxLimit' => REC0RDS_LIMIT,

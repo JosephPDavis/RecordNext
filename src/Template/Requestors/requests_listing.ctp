@@ -42,23 +42,18 @@
                     <div class="row">
                         <div class="col-md-2"> 
                             <?php echo $this->Form->input('by_name',array('label' => false,'div' => false,'value'=>$name_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
-                            <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->               
                             <span class="help-block pull-left spn100 label-search">By name </span>
                         </div>
                         <div class="col-md-2">  
                             <?php echo $this->Form->input('by_id',array('label' => false,'div' => false,'value'=>$id_keyword ,'placeholder'=>"Search" , 'class' => 'form-control pull-right', 'type'=>'text','maxlength'=>15));?>  
-                            <!--<input name="table_search" class="form-control pull-right" placeholder="Search" type="text">-->
                             <span class="help-block pull-left spn100 label-search">By matter id, request id </span>
-                        </div><!--
-                        -->       
+                        </div>  
                         <div class="col-md-2">                
                             <div class="input-group date">
-                                <div class="input-group-addon">
+                                <div class="input-group-addon date_custom">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <?php echo $this->Form->input('by_start_date',array('label' => false,'div' => false,'value'=>$start_date ,'placeholder'=>"Search" , 'class' => 'form-control pull-right field-disable-colr','id'=>"start_datepicker",'readonly'=>'readonly'));?>  
-                                <!--<input type="text" class="form-control pull-right" id="datepicker">-->
-
                             </div>
                             <span class="help-block label-search">Search by date</span>
                         </div>
@@ -71,7 +66,6 @@
 
                         <div class="col-md-2">     
                             <?php echo $this->Form->button('<i class="fa fa-search"></i> Search', array('div' => false, 'class'=>'btn btn-info','type'=>'submit'),array('escape' => false)); ?>
-                            <!--<button type="submit" class="btn btn-info "><i class="fa fa-search"></i> Search</button>-->              
                         </div>
                         <div class="col-md-2 text-right">                
                             <?php echo $this->Html->link('Add/Create Request',['controller' => 'Requestors', 'action' => 'selectProvider', '_full' => true],['class'=>'btn btn-info']);?>             
@@ -190,6 +184,10 @@
         });
         $('#start_datepicker').on('changeDate', function (ev) {
             $(this).datepicker('hide');
+        });
+
+        $(document).on('click', ".date_custom", function () {
+            $('#start_datepicker').datepicker('show');
         });
     });
     /*
