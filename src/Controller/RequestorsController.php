@@ -441,7 +441,7 @@ class RequestorsController extends AppController {
         $userTable = TableRegistry::get('users');
         $requestTable = TableRegistry::get('requests');
         $data = $requestTable->find('all', array('fields' => array('id', 'request_status', 'provider_id','request_id'),
-                    'conditions' => array('requestor_id' => $user_id, 'request_status' != '0'), 'limit' => 10, 'order' => ['modified' => 'desc']
+                    'conditions' => array('requestor_id' => $user_id, 'request_status' != '0'), 'limit' => REC0RDS_LIMIT, 'order' => ['modified' => 'desc']
                 ))->all()->toArray();
         $output = array();
         $index = 1;

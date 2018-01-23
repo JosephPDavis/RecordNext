@@ -77,10 +77,7 @@ class AdminsController extends AppController {
         $requestTable = TableRegistry::get('requests');
         $data = $requestTable->find('all', array('fields' => array('id', 'request_status', 'provider_id', 'requestor_id', 'request_id'),
                     'conditions' => array(
-                        'OR' => array(
-                            'request_status' => '7',
-                            'request_status' => '8'
-                        ),
+                        'request_status' != '0'
                     ), 'limit' => REC0RDS_LIMIT, 'order' => ['modified' => 'desc']
                 ))->all()->toArray();
         $output = array();
@@ -102,43 +99,44 @@ class AdminsController extends AppController {
         $this->set('data', $output);
     }
 
-    public function getStatusByID($request_id) {
-        switch ($request_id) {
-            case 0:
-                return 'Submitted';
-                break;
-
-            case 1:
-                return 'Accepted';
-                break;
-
-            case 2:
-                return 'Denied';
-                break;
-
-            case 3:
-                return 'Threshold limit exceed';
-                break;
-
-            case 4:
-                return 'In progress';
-                break;
-
-            case 5:
-                return 'Records Available';
-                break;
-
-            case 6:
-                return 'No Records Found';
-                break;
-
-            case 7:
-                return 'Requestor denied';
-                break;
-
-            default:
-                return 'NA';
-                break;
+   public function getStatusByID($request_id) {
+            switch ($request_id) {
+                    case 0:
+                        return 'Submitted';
+                        break;
+                    
+                    case 1:
+                        return 'Accepted';
+                        break;
+                    
+                    case 2:
+                    return 'Denied';
+                        break;
+                        
+                    case 3:
+                     return 'Threshold limit exceed';
+                        break;
+        
+                    case 4:
+                    return 'In progress';
+                        break;
+                    
+                    case 5:
+                    return 'Records Available';
+                        break;
+                    
+                    case 6:
+                    return 'No Records Found';
+                        break;
+                        
+                    case 7:
+                    return 'Requestor denied';
+                        break;
+                    
+                    default:
+                    return 'NA';
+                        break;
+                    
         }
     }
 
