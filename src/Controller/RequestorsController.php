@@ -1109,6 +1109,37 @@ class RequestorsController extends AppController {
         $this->set('id_keyword', $id_keyword);
     }
     
+    /*
+     * Ajax function to update the request status, fired from the progress-bar
+     */
+
+    public function updateRequestStatus($id = null) {
+        $requestsTable = TableRegistry::get('requests');
+        $arrJson = array();
+        $arrJson['status'] = 'error';
+        $arrJson['message'] = 'Request is processed before post';
+        if ($this->request->is('post')) {
+            $post_data = $this->request->getData();
+            $request_id = $post_data['id'];
+            $request_status = $post_data['request_status'];
+            $requestRow = $requestsTable->get($request_id);
+            $requestRow->request_status = $request_status;
+             $requestData = $requestsTable->findRequestDataByID($request_id);
+            if ($requestsTable->save($requestRow)) {
+                if($request_status == 3 ){
+                     $this->insertNotifications($userSession['id'],$requestData['requestor_id'], 0, 0, $request_id, 3, 'Threshold exceed', 5);
+                }
+                $arrJson['status'] = 'success';
+                $arrJson['message'] = 'Status updated successfully';
+            } else {
+                $arrJson['status'] = 'error';
+                $arrJson['message'] = 'Status updatedion failed';
+            }
+        }
+        echo json_encode($arrJson);
+        die();
+    }
+
    
     
 }

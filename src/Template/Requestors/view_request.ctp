@@ -504,7 +504,7 @@
             jQuery.ajax({
                 type: "POST",
                 data: {id: request_id, request_status: update},
-                url: "/providers/updateRequestStatus",
+                url: "/requestors/updateRequestStatus",
                 dataType: 'json',
                 success: function (json) {
                     if (json.status == 'success') {

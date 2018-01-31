@@ -202,7 +202,8 @@ class ProvidersController extends AppController {
         $dobY = $dobArr[2];
         $arrJson = array();
         if ($this->request->is('post')) {
-            \Stripe\Stripe::setApiKey("sk_test_OAYRwtiKanB9quptS09wRN09");
+            \Stripe\Stripe::setApiKey("sk_test_OAYRwtiKanB9quptS09wRN09"); //sneha's secrete key
+//            \Stripe\Stripe::setApiKey("sk_test_uucbrRMHQrChEq1KSpLl6U8O"); //client's secrete key
 
             $account = \Stripe\Account::create(
                             array(
@@ -638,7 +639,11 @@ class ProvidersController extends AppController {
             $arrJson['files'] = json_encode($fileNames);
             $CardData = $paymentTable->getCardDataByReqID($request_id);
             $cardId = $CardData['transaction_id'];
+//            echo 'transaction ID=';
+//            pr($cardId);
             $TransId = $this->stripeDirectCharge($cardId, $finalFees, $request_id);
+//            pr($TransId);
+//            echo 'in line 644';
             if (!empty($TransId)) {
                 $query = $paymentTable->query();
                 $queryRequest = $requestsTable->query();
@@ -680,6 +685,9 @@ class ProvidersController extends AppController {
 //        pr($cardId);
         //find card details for prefered card
         $response = $this->Stripe->charge($data, $cardId);
+//        echo 'stripe direct charge response=';
+//        pr($response);
+        
         if ($response['status'] == 'success') {
             return $response['response']['id'];
         } else {

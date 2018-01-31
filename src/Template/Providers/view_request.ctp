@@ -920,6 +920,9 @@
                                     //window.location.reload();
                                 }
                         );
+                    }else{
+                        $('#loddingImage').hide();
+                        alert(json.status);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown)

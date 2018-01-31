@@ -40,7 +40,8 @@ class StripeComponent extends Component
      * @var string
      */
 //    public $key = 'pk_test_iii5XWKAmJOkeOSPT03x7qft';
-    public $key = 'sk_test_OAYRwtiKanB9quptS09wRN09';
+    public $key = 'sk_test_OAYRwtiKanB9quptS09wRN09'; //sneha's secrete key
+//    public $key = 'sk_test_uucbrRMHQrChEq1KSpLl6U8O'; //client's secrete key
     
     
     /**
