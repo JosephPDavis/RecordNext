@@ -173,7 +173,7 @@ class AdminsController extends AppController {
                 );
             }
             if (isset($start_date) && $start_date != '') {
-                $conditions += array('requests.date_of_request >=' => date('Y-m-d', strtotime($start_date)));
+                $conditions += array('date(requests.date_of_request) >=' => date('Y-m-d', strtotime($start_date)));
             }
             if (isset($end_date) && $end_date != '') {
                 $conditions += array('date(requests.date_of_request) <=' => date('Y-m-d', strtotime($end_date)));
@@ -718,10 +718,10 @@ class AdminsController extends AppController {
             ),
             "AND" => array(
                 'requests.payment_status' => '1',
-                'requests.request_status !=' => '9'
+//                'requests.request_status !=' => '9'
             ),
         );
-
+        
         if ($this->request->is('post')) {
             $post_data = $this->request->getData();
             $name_keyword = $post_data['by_name'];
@@ -740,11 +740,11 @@ class AdminsController extends AppController {
             }
 
             if (isset($start_date) && $start_date != '') {
-                $conditions += array('requests.rec_start_date >=' => date('Y-m-d', strtotime($start_date)));
+                $conditions += array('date(requests.rec_start_date) >=' => date('Y-m-d', strtotime($start_date)));
             }
 
             if (isset($end_date) && $end_date != '') {
-                $conditions += array('requests.rec_end_date <=' => date('Y-m-d', strtotime($end_date)));
+                $conditions += array('date(requests.rec_end_date) <=' => date('Y-m-d', strtotime($end_date)));
             }
 
             if (isset($payment_status) && $payment_status != '') {
@@ -756,7 +756,8 @@ class AdminsController extends AppController {
                 }
             }
         }
-
+//        pr($conditions);
+        
         $this->paginate = [
             'contain' => ['Provider', 'Payments'],
             'maxLimit' => REC0RDS_LIMIT,
