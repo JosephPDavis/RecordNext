@@ -740,11 +740,11 @@ class AdminsController extends AppController {
             }
 
             if (isset($start_date) && $start_date != '') {
-                $conditions += array('requests.date_of_request >=' => date('Y-m-d', strtotime($start_date)));
+                $conditions += array('requests.rec_start_date >=' => date('Y-m-d', strtotime($start_date)));
             }
 
             if (isset($end_date) && $end_date != '') {
-                $conditions += array('requests.date_of_request <=' => date('Y-m-d', strtotime($end_date)));
+                $conditions += array('requests.rec_end_date <=' => date('Y-m-d', strtotime($end_date)));
             }
 
             if (isset($payment_status) && $payment_status != '') {
