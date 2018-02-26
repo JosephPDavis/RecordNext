@@ -26,11 +26,7 @@ define('DB_NAME', 'db_medicalrecords');
 define('DB_USER', 'medicalrecords');
 
 /** MySQL database password */
-<<<<<<< HEAD
 define('DB_PASSWORD', 'medicalrecords');
-=======
-define('DB_PASSWORD', 'medicalrecords34GTr5');
->>>>>>> 73ca22497cddf124a25cc1dc5eab3ee28c702f79
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -81,17 +77,14 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
-<<<<<<< HEAD
 /**for permissions error pop up*/
 define('FS_METHOD', 'direct');
 
 
 
 
-=======
->>>>>>> 73ca22497cddf124a25cc1dc5eab3ee28c702f79
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
