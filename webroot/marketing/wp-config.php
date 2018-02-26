@@ -26,7 +26,7 @@ define('DB_NAME', 'db_medicalrecords');
 define('DB_USER', 'medicalrecords');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'medicalrecords');
+define('DB_PASSWORD', 'medicalrecords34GTr5');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
